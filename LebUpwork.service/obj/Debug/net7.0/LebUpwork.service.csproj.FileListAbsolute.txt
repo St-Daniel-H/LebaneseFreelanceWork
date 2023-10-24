@@ -1,0 +1,14 @@
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\bin\Debug\net7.0\LebUpwork.service.deps.json
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\bin\Debug\net7.0\LebUpwork.service.runtimeconfig.json
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\bin\Debug\net7.0\LebUpwork.service.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\bin\Debug\net7.0\LebUpwork.service.pdb
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.csproj.AssemblyReference.cache
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.AssemblyInfoInputs.cache
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.AssemblyInfo.cs
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.csproj.CoreCompileInputs.cache
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\refint\LebUpwork.service.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.pdb
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.genruntimeconfig.cache
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\ref\LebUpwork.service.dll
