@@ -10,7 +10,11 @@ namespace LebUpwor.core.Interfaces
 {
     public interface ITokenHistoryRepository : IRepositoryRepository<TokenHistory>
     {
-        Task<IEnumerable<TokenHistory>> GetTokenHistoryByUserId(int userId);
+        //public required int SenderId { get; set; }
+        //public required int ReceiverId { get; set; }
+        Task<IEnumerable<TokenHistory>> GetTokenHistoryBySenderId(int SenderId);
+        Task<IEnumerable<TokenHistory>> GetTokenHistoryByReceiverId(int ReceiverId);
+
         Task<IEnumerable<TokenHistory>> GetTokenHistoryByDate(string date);
     }
 }

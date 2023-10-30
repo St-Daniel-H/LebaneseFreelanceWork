@@ -9,9 +9,8 @@ using System.Threading.Tasks;
 
 namespace LebUpwor.core.Interfaces
 {
-    public interface ICashOutHistoriesRepository : IRepositoryRepository<CashOutHistory>
+    public interface ICashOutHistoryRepository : IRepositoryRepository<CashOutHistory>
     {
         Task<IEnumerable<CashOutHistory>> GetAllCashOutHistoryWithUserId(int userId);
-        Task<IEnumerable<CashOutHistory>> GetAllCashOutHistory();
     }
 }

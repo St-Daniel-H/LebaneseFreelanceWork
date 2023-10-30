@@ -9,8 +9,8 @@ using System.Threading.Tasks;
 
 namespace LebUpwor.core.Interfaces
 {
-    public interface IRolesRepository : IRepositoryRepository<Role>
+    public interface IRoleRepository : IRepositoryRepository<Role>
     {
-        Task<IEnumerable<Role>> GetAllRoles();
+        //Task<IEnumerable<Role>> GetAllRoles();
     }
 }

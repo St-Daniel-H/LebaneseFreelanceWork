@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace LebUpwor.core.Interfaces
 {
-    public interface IAppliedToTasksRepository : IRepositoryRepository<AppliedToTask>
+    public interface IAppliedToTaskRepository : IRepositoryRepository<AppliedToTask>
     {
         Task<IEnumerable<AppliedToTask>> GetAllUsersWithTaskId(int taskId);
         Task<IEnumerable<AppliedToTask>> GetAllJobsWithUserId(int userId);

@@ -12,10 +12,14 @@ namespace LebUpwor.core.Models
     {
         [Key]
         public int AppliedToTaskId { get; set; }
+        public DateTime AppliedDate { get; set; }
         public required int JobId { get; set; }
         public required int UserId { get; set; }
         [ForeignKey("UserId")]
         public virtual User? User { get; set; }
+        public AppliedToTask() { 
+        AppliedDate = DateTime.Now;
+        }  
         //public virtual ICollection<User>? AppliedUsers { get; set; }
         [ForeignKey("JobId")]
         public virtual Job? Job { get; set; }

@@ -20,6 +20,8 @@ namespace LebUpwor.core.Models
         public required string Description { get; set; }
         public required double Offer { get; set; }
         public bool IsCompleted { get; set; }
+        public DateTime PostedDate { get; set; }
+        public DateTime FinishedDate { get; set; }
         public  int FinishedByUserId { get; set; }
         [ForeignKey("FinishedByUserId")]
         public virtual User? FinishedByUser { get; set; }
@@ -28,6 +30,7 @@ namespace LebUpwor.core.Models
 
         public Job()
         {
+            PostedDate =  DateTime.Now;
             IsCompleted = false;
             FinishedByUserId = 0;
         }

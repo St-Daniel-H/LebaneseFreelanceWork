@@ -15,19 +15,22 @@ namespace LebUpwor.core.Models
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Email { get; set; }
-
+         
         public string? PhoneNumber { get; set; }
 
         public double Token { get; set; }
         public double Diamond { get; set; }
+        public DateTime JoinedDate { get; set; }
+        public string? ProfilePicture { get; set; }
+        public string? CVpdf { get; set; }
+        public int? RoleId { get; set; }
         public User()
         {
             Token = 0;
             Diamond = 0;
+            JoinedDate = DateTime.Now;
         }
-        public string? ProfilePicture { get; set; }
 
-        public int? RoleId { get; set; }
 
         // Navigation property for the associated role
         public virtual Role? Role { get; set; }

@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace LebUpwor.core.Interfaces
 {
-    public interface IMessagesRepository : IRepositoryRepository<Message>
+    public interface IMessageRepository : IRepositoryRepository<Message>
     {
         Task<IEnumerable<Message>> GetMessagesBySenderId(int senderId);
         Task<IEnumerable<Message>> GetMessagesByReceiverId(int receiverId);

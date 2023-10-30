@@ -16,5 +16,9 @@ namespace LebUpwor.core.Models
         public required int UserId { get; set; }
         public virtual User? User { get; set; }
 
+        CashOutHistory()
+        {
+            Date = DateTime.Now;
+        }
     }
 }

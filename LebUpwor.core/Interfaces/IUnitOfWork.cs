@@ -9,12 +9,12 @@ namespace LebUpwor.core.Interfaces
     internal interface IUnitOfWork : IDisposable
     {
         IUserRepository Users { get; }
-        IJobsRepository Jobs { get; }
-        IRolesRepository Roles { get; }
-        IMessagesRepository Messages { get; }
+        IJobRepository Jobs { get; }
+        IRoleRepository Roles { get; }
+        IMessageRepository Messages { get; }
 
-        ICashOutHistoriesRepository CashOutHistories { get; }
-        IAppliedToTasksRepository AppliedToTasks { get; }
+        ICashOutHistoryRepository CashOutHistories { get; }
+        IAppliedToTaskRepository AppliedToTasks { get; }
         ITokenHistoryRepository TokenHistories { get; }
 
 

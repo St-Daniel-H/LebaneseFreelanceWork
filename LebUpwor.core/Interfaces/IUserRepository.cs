@@ -12,9 +12,8 @@ namespace LebUpwor.core.Interfaces
     {
         Task<User> GetUserByEmail(string email);
         Task<User> GetUserById(int id);
-        Task<User> GetUserByName(string name);
-        Task<User> GetUserByGoogleId(string googleId);
-        Task<IEnumerable<User>> GetUsersFromJobId(int jobId);
+        Task<IEnumerable<User>> GetUserByName(string name);
+        Task<User> GetUserByGoogleId(int googleId);
         Task<IEnumerable<User>> GetAllUsers();
 
     }

@@ -23,5 +23,9 @@ namespace LebUpwor.core.Models
         public virtual required User Sender { get; set; }
         [ForeignKey("ReceiverId")]
         public virtual required User Receiver { get; set; }
+        public TokenHistory()
+        {
+            Date = DateTime.Now;
+        }
     }
 }
