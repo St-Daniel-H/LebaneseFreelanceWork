@@ -22,4 +22,8 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\LebUpwor.core\LebUpwor.core.csproj" />
+  </ItemGroup>
+
 </Project>

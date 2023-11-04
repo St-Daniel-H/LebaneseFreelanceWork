@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace LebUpwor.core.Interfaces
 {
-    internal interface IUnitOfWork : IDisposable
+    public interface IUnitOfWork : IDisposable
     {
         IUserRepository Users { get; }
         IJobRepository Jobs { get; }

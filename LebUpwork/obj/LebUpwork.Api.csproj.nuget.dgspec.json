@@ -108,7 +108,11 @@
         "frameworks": {
           "net7.0": {
             "targetAlias": "net7.0",
-            "projectReferences": {}
+            "projectReferences": {
+              "C:\\Users\\danih\\source\\repos\\LebUpwork\\LebUpwor.core\\LebUpwor.core.csproj": {
+                "projectPath": "C:\\Users\\danih\\source\\repos\\LebUpwork\\LebUpwor.core\\LebUpwor.core.csproj"
+              }
+            }
           }
         },
         "warningProperties": {

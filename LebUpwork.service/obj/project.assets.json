@@ -1516,6 +1516,21 @@
             "rid": "win"
           }
         }
+      },
+      "LebUpwor.core/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v7.0",
+        "dependencies": {
+          "Microsoft.AspNetCore.Identity": "2.2.0",
+          "Microsoft.EntityFrameworkCore": "7.0.13",
+          "Microsoft.EntityFrameworkCore.SqlServer": "7.0.13"
+        },
+        "compile": {
+          "bin/placeholder/LebUpwor.core.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/LebUpwor.core.dll": {}
+        }
       }
     }
   },
@@ -3838,10 +3853,16 @@
         "system.windows.extensions.nuspec",
         "useSharedDesignerContext.txt"
       ]
+    },
+    "LebUpwor.core/1.0.0": {
+      "type": "project",
+      "path": "../LebUpwor.core/LebUpwor.core.csproj",
+      "msbuildProject": "../LebUpwor.core/LebUpwor.core.csproj"
     }
   },
   "projectFileDependencyGroups": {
     "net7.0": [
+      "LebUpwor.core >= 1.0.0",
       "Microsoft.AspNetCore.Identity >= 2.2.0",
       "Microsoft.EntityFrameworkCore >= 7.0.13",
       "Microsoft.EntityFrameworkCore.Design >= 7.0.13",
@@ -3875,7 +3896,11 @@
       "frameworks": {
         "net7.0": {
           "targetAlias": "net7.0",
-          "projectReferences": {}
+          "projectReferences": {
+            "C:\\Users\\danih\\source\\repos\\LebUpwork\\LebUpwor.core\\LebUpwor.core.csproj": {
+              "projectPath": "C:\\Users\\danih\\source\\repos\\LebUpwork\\LebUpwor.core\\LebUpwor.core.csproj"
+            }
+          }
         }
       },
       "warningProperties": {
