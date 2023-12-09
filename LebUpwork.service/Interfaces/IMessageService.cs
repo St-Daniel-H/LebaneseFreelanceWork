@@ -4,8 +4,9 @@ namespace LebUpwork.Api.Interfaces
 {
     public interface IMessageService
     {
-        Task<Message> SendMessage(User from, User to, string content);
-        Task<Message> DeleteMessage(int  messageId);
-        Task<List<Message>> GetMessages(User user);    
+        Task<Message> SendMessage(Message message);
+        Task DeleteMessage(Message  message);
+        Task<IEnumerable<Message>> GetMessagesBySender(User user);
+        Task<IEnumerable<Message>> GetMessagesByReceiver(User user);
     }
 }
