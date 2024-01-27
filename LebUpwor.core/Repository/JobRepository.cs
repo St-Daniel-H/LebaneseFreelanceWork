@@ -26,6 +26,12 @@ namespace LebUpwor.core.Repository
         {
             get { return Context as UpworkLebContext; }
         }
+        public async Task<Job> GetJobById(int Jobid)
+        {
+            return await UpworkLebContext.Jobs
+                 .Where(job => job.JobId == Jobid)
+                .SingleOrDefaultAsync();
+        }
         public async Task<IEnumerable<Job>> GetAllJobs()
         {
             return await UpworkLebContext.Jobs

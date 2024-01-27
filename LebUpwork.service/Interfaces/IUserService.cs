@@ -13,7 +13,7 @@ namespace LebUpwork.Api.Interfaces
         Task DeleteUser(User user);
         Task UpdateUser(User userToBeUpdated, User user);
         //wallet stuff
-        Task SendDiamonds(User from, User to,double amount);
+        Task SendTokens(User from, User to,double amount);
     
         //end of wallet stuff
 

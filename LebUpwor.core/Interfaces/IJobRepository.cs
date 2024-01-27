@@ -12,6 +12,7 @@ namespace LebUpwor.core.Interfaces
     public interface IJobRepository : IRepositoryRepository<Job>
     {
         Task<IEnumerable<Job>> GetAllJobs();
+        Task<Job> GetJobById(int jobid);
         Task<IEnumerable<Job>> GetJobsWithKeyword(string keywoard);
         Task<IEnumerable<Job>> GetAllJobsPostedByUser(int userId);
         Task<IEnumerable<Job>> GetAllJobsFinishedByUser(int userId);

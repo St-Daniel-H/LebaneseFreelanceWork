@@ -8,5 +8,6 @@ namespace LebUpwork.Api.Interfaces
         Task DeleteMessage(Message  message);
         Task<IEnumerable<Message>> GetMessagesBySender(User user);
         Task<IEnumerable<Message>> GetMessagesByReceiver(User user);
+        Task<IEnumerable<Message>> GetUnreadMessages(User user);
     }
 }

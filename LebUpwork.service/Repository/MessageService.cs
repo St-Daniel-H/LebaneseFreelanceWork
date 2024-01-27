@@ -36,5 +36,9 @@ namespace LebUpwork.service.Repository
             await _unitOfWork.Messages.AddAsync(message);
             return message;
         }
+        public async Task<IEnumerable<Message>> GetUnreadMessages(User user)
+        {
+           return await _unitOfWork.Messages.GetUnreadMessagesForUser(user.UserId);
+        }
     }
 }

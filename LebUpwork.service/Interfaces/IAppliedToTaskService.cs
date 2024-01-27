@@ -4,7 +4,8 @@ namespace LebUpwork.Api.Interfaces
 {
     public interface IAppliedToTaskService
     {
-        Task<AppliedToTask> GetAppliedToTaskService(int id);
-        Task<AppliedToTask> AddUser(int userId);
+        Task<IEnumerable<AppliedToTask>> GetUsersAppliedByTaskId (int id);
+        Task<IEnumerable<AppliedToTask>> GetJobsApplied(int userId);
+        Task<AppliedToTask> CreateAppliedToTask(AppliedToTask taskapp);
     }
 }

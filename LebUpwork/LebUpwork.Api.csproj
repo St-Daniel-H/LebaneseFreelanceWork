@@ -30,4 +30,11 @@
     <ProjectReference Include="..\LebUpwork.service\LebUpwork.service.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Controllers\" />
+    <Folder Include="Extensions\" />
+    <Folder Include="Mapping\" />
+    <Folder Include="Validators\" />
+  </ItemGroup>
+
 </Project>

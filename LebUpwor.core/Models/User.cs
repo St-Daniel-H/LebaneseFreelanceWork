@@ -19,7 +19,6 @@ namespace LebUpwor.core.Models
         public string? PhoneNumber { get; set; }
 
         public double Token { get; set; }
-        public double Diamond { get; set; }
         public DateTime JoinedDate { get; set; }
         public string? ProfilePicture { get; set; }
         public string? CVpdf { get; set; }
@@ -27,7 +26,6 @@ namespace LebUpwor.core.Models
         public User()
         {
             Token = 0;
-            Diamond = 0;
             JoinedDate = DateTime.Now;
         }
 

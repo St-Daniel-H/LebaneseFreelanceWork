@@ -41,10 +41,10 @@ namespace LebUpwork.Api.Repository
 
             await _unitOfWork.CommitAsync();
         }
-        public async Task SendDiamonds(User From, User To,double amount)
+        public async Task SendTokens(User From, User To,double amount)
         {
-            From.Diamond -= amount;
-            To.Diamond += amount;
+            From.Token -= amount;
+            To.Token += amount;
 
             await _unitOfWork.CommitAsync();
         }
