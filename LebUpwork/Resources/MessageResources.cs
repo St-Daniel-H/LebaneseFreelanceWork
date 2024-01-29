@@ -6,7 +6,6 @@ namespace LebUpwork.Api.Resources
 {
     public class MessageResources
     {
-        [Key]
         public int MessageId { get; set; }
         public  string Text { get; set; }
         public  DateTime Date { get; set; }

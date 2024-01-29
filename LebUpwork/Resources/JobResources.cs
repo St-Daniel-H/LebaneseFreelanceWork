@@ -6,8 +6,6 @@ namespace LebUpwork.Api.Resources
 {
     public class JobResources
     {
-
-        [Key]
         public int JobId { get; set; }
         public User? User { get; set; }
         public  string? Title { get; set; }

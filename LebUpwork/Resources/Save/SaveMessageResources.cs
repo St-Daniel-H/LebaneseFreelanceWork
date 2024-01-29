@@ -2,7 +2,7 @@
 
 namespace LebUpwork.Api.Resources.Save
 {
-    public class SaveMessageResource
+    public class SaveMessageResources
     {
         public string Text { get; set; }
         public User? Sender { get; set; }

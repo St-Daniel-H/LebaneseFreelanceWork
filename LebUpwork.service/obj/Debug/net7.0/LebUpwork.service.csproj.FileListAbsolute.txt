@@ -12,3 +12,6 @@ C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\refint\
 C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.pdb
 C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.genruntimeconfig.cache
 C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\ref\LebUpwork.service.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\bin\Debug\net7.0\LebUpwor.core.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\bin\Debug\net7.0\LebUpwor.core.pdb
+C:\Users\danih\source\repos\LebUpwork\LebUpwork.service\obj\Debug\net7.0\LebUpwork.service.csproj.CopyComplete

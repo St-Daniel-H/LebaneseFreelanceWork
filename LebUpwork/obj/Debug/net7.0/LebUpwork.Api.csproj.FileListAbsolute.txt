@@ -72,3 +72,6 @@ C:\Users\danih\source\repos\LebUpwork\LebUpwork\obj\Debug\net7.0\refint\LebUpwor
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\obj\Debug\net7.0\LebUpwork.Api.pdb
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\obj\Debug\net7.0\LebUpwork.Api.genruntimeconfig.cache
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\obj\Debug\net7.0\ref\LebUpwork.Api.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\AutoMapper.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\AutoMapper.Extensions.Microsoft.DependencyInjection.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\FluentValidation.dll
