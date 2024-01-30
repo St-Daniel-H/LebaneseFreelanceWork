@@ -10,6 +10,7 @@ namespace LebUpwor.core.Interfaces
 {
     public interface IUserRepository : IRepositoryRepository<User>
     {
+
         Task<User> GetUserByEmail(string email);
         Task<User> GetUserById(int id);
         Task<IEnumerable<User>> GetUserByName(string name);

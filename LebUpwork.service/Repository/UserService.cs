@@ -13,6 +13,11 @@ namespace LebUpwork.Api.Repository
         {
             this._unitOfWork = unitOfWork;
         }
+        public async Task<IEnumerable<User>> GetAllUsers()
+        {
+            return await _unitOfWork.Users.GetAllUsers();
+        }
+
         public async Task<User> GetUserByEmail(string email)
         {
             return await _unitOfWork.Users.GetUserByEmail(email);

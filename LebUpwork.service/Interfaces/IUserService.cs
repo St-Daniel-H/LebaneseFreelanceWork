@@ -5,6 +5,8 @@ namespace LebUpwork.Api.Interfaces
     public interface IUserService
     {
         //GET
+        Task<IEnumerable<User>> GetAllUsers();
+
         Task<User> GetUserByEmail(String Email);
         Task<User> GetUserByGoogleId(int googleId);
         Task<User> GetUserById(int Id);
