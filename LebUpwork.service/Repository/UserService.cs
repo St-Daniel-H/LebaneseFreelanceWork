@@ -1,5 +1,4 @@
-﻿using BookingSystem.core.Repository;
-using LebUpwork.Api.Interfaces;
+﻿using LebUpwork.Api.Interfaces;
 using LebUpwor.core.Models;
 using LebUpwor.core.Interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;

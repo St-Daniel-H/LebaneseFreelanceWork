@@ -3,7 +3,6 @@ using LebUpwor.core.Models;
 using Microsoft.Extensions.Configuration;
 using System.Text.Json.Serialization;
 using LebUpwor.core.Interfaces;
-using BookingSystem.core.Repository;
 using LebUpwor.core.Repository;
 using LebUpwork.Api.Interfaces;
 using LebUpwork.Api.Repository;
@@ -14,6 +13,12 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
+
+builder.Services.AddDbContext<UpworkLebContext>(options =>
+{
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
+});
+
 // Add CORS services
 builder.Services.AddCors(options =>
 {
@@ -46,13 +51,7 @@ builder.Services.AddScoped<ICashOutHistoryService, CashOutHistoryService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 
-builder.Services.AddTransient<IUserService, UserService>();
-builder.Services.AddTransient<IJobService, JobService>();
-builder.Services.AddTransient<IAppliedToTaskService,AppliedToTaskService>();
-builder.Services.AddTransient<ITokenHistoryService, TokenHistoryService>();
-builder.Services.AddTransient<ICashOutHistoryService, CashOutHistoryService>();
-builder.Services.AddTransient<IMessageService, MessageService>();
-builder.Services.AddTransient<IRoleService, RoleService>();
+
 
 //automapper
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -71,10 +70,7 @@ if (!app.Environment.IsDevelopment())
 }
 
 
-builder.Services.AddDbContext<UpworkLebContext>(options =>
-{
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
-});
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseCors();

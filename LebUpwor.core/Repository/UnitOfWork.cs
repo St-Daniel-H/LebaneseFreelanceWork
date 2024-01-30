@@ -2,9 +2,8 @@
 
 using LebUpwor.core.Interfaces;
 using LebUpwor.core.Models;
-using LebUpwor.core.Repository;
 
-namespace BookingSystem.core.Repository
+namespace LebUpwor.core.Repository
 {
     public class UnitOfWork : IUnitOfWork
     {
