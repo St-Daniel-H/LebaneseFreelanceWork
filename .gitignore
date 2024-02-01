@@ -1,0 +1,3 @@
+# Ignore appsettings files
+LebUpWork.Api/appsettings.json
+LebUpWork.Api/appsettings.Development.json
