@@ -81,3 +81,5 @@ C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Swashbuckle.Asp
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerGen.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Swashbuckle.AspNetCore.SwaggerUI.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\obj\Debug\net7.0\LebUpwork.Api.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Castle.Core.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Microsoft.EntityFrameworkCore.Proxies.dll

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
-namespace calenderAPI.Extensions
+namespace LebUpwork.Api.Extensions
 {
     public static class AuthExtensions
     {

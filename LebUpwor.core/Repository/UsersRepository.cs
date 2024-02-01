@@ -28,6 +28,7 @@ namespace LebUpwor.core.Repository
         public async Task<User> GetUserByEmail(string email)
         {
             return await UpworkLebContext.Users
+                 .Include(user => user.Role) 
                  .Where(user => user.Email == email)
                 .SingleOrDefaultAsync();
         }
@@ -43,6 +44,7 @@ namespace LebUpwor.core.Repository
                  .Where(user => user.GoogleAccountId == id)
                 .SingleOrDefaultAsync();
         }
+
         public async Task<IEnumerable<User>> GetUserByName(string Name)
         {
             return await UpworkLebContext.Users

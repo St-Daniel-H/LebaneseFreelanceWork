@@ -16,9 +16,10 @@ namespace LebUpwork.Api.Interfaces
         Task UpdateUser(User userToBeUpdated, User user);
         //wallet stuff
         Task SendTokens(User from, User to,double amount);
-    
-        //end of wallet stuff
 
-        
+        //end of wallet stuff
+        string HashPassword(string password, out string salt);
+        bool CheckPassword(User user,string password);
+
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
@@ -13,11 +14,13 @@ namespace LebUpwor.core.Models
     {
         public UpworkLebContext()
         {
+
         }
 
         public UpworkLebContext(DbContextOptions<UpworkLebContext> options)
             : base(options)
         {
+            this.ChangeTracker.LazyLoadingEnabled = true;
         }
 
         public virtual DbSet<User> Users { get; set; } = null!;
@@ -28,7 +31,18 @@ namespace LebUpwor.core.Models
         public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<TokenHistory> TokenHistories { get; set; } = null!;
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            //if (!optionsBuilder.IsConfigured)
+            //{
 
+            //    optionsBuilder.UseLazyLoadingProxies();
+            //}
+            if (!optionsBuilder.IsConfigured)
+            {
+                optionsBuilder.UseSqlServer("Server = LAPTOP-IQGVBR7N\\SQLEXPRESS; Database = LebaneseUpwork; Trusted_Connection = True; Encrypt = False;");
+            }
+        }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Job>()
@@ -81,13 +95,8 @@ namespace LebUpwor.core.Models
                 .HasForeignKey(u => u.JobId)
                 .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(modelBuilder);
-        }
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            if (!optionsBuilder.IsConfigured)
-            {
-                optionsBuilder.UseSqlServer("Server = LAPTOP-IQGVBR7N\\SQLEXPRESS; Database = LebaneseUpwork; Trusted_Connection = True; Encrypt = False;");
-            }
+
+
         }
     }
 }

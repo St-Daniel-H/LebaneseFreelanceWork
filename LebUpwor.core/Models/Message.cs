@@ -23,9 +23,9 @@ namespace LebUpwor.core.Models
         public bool IsRead { get; set; }
 
         [ForeignKey("SenderId")]
-        public  User Sender { get; set; }
+        public virtual User Sender { get; set; }
         [ForeignKey("ReceiverId")]
-        public  User Receiver { get; set; }
+        public virtual User Receiver { get; set; }
         public Message()
         {
             Date = DateTime.Now;

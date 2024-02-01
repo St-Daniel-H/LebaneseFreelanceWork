@@ -2,6 +2,8 @@
 using LebUpwor.core.Models;
 using LebUpwor.core.Interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory.Database;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace LebUpwork.Api.Repository
 {
@@ -56,6 +58,41 @@ namespace LebUpwork.Api.Repository
         {
             _unitOfWork.Users.Remove(user);
             await _unitOfWork.CommitAsync();
+        }
+        public string HashPassword(string password, out string salt)
+        {
+            byte[] saltBytes = new byte[16];
+            using (var rng = new RNGCryptoServiceProvider())
+            {
+                rng.GetBytes(saltBytes);
+            }
+             salt = Convert.ToBase64String(saltBytes);
+
+            // Concatenate the password and salt
+            string saltedPassword = password + salt;
+
+            // Hash the salted password
+            using var sha256 = SHA256.Create();
+            byte[] hashedBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword));
+
+            // Convert hashed bytes to a base64 string and concatenate with the salt
+            string hashedPasswordWithSalt = Convert.ToBase64String(hashedBytes) + ":" + salt;
+
+            return hashedPasswordWithSalt;
+        }
+        public bool CheckPassword(User user,string password)
+        {
+            string salt = user.Salt;
+            string userPassword = user.Password;
+
+            string saltedPassword = password + salt;//users input
+
+            // Hash the salted password, should return the same password as the user's
+            using var sha256 = SHA256.Create();
+            byte[] hashedBytes = SHA256.HashData(Encoding.UTF8.GetBytes(saltedPassword));
+            string hashedPassword = Convert.ToBase64String(hashedBytes) + ":" + salt; ;
+
+            return userPassword == hashedPassword;
         }
     }
 }
