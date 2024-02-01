@@ -222,6 +222,9 @@ namespace LebUpwor.core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("GoogleAccountId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("JoinedDate")
                         .HasColumnType("datetime2");
 
@@ -242,11 +245,12 @@ namespace LebUpwor.core.Migrations
                     b.Property<int?>("RoleId")
                         .HasColumnType("int");
 
+                    b.Property<string>("Salt")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<double>("Token")
                         .HasColumnType("float");
-
-                    b.Property<int>("googleAccountId")
-                        .HasColumnType("int");
 
                     b.HasKey("UserId");
 

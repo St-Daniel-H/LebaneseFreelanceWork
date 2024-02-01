@@ -40,7 +40,7 @@ namespace LebUpwor.core.Repository
         public async Task<User> GetUserByGoogleId(int id)
         {
             return await UpworkLebContext.Users
-                 .Where(user => user.googleAccountId == id)
+                 .Where(user => user.GoogleAccountId == id)
                 .SingleOrDefaultAsync();
         }
         public async Task<IEnumerable<User>> GetUserByName(string Name)
