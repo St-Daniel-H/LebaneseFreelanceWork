@@ -40,7 +40,8 @@ namespace LebUpwork.Api.Controllers
             this._jwtSettings = jwtSettings.Value;
         }
         [HttpGet("GetAllUsers")]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
+        [AllowAnonymous]
         public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
         {
             var users = await _userService.GetAllUsers();
@@ -69,57 +70,10 @@ namespace LebUpwork.Api.Controllers
                     ModelState.AddModelError("Email", "Email already exists");
                     return BadRequest(ModelState);
                 }
-                if (signupResources.CVpdf != null && signupResources.CVpdf.Length > 0)
-                {
-                    if (!_fileValidation.IsFileValid(signupResources.CVpdf))
-                    {
-                        return BadRequest("Invalid CV format, please upload a pdf file ");
-                    }
-                }
-                if (signupResources.ProfilePicture != null && signupResources.ProfilePicture.Length > 0)
-                {
-                    if (!_fileValidation.IsImageValid(signupResources.ProfilePicture))
-                    {
-                        return BadRequest("Invalid Image format, please choose jpg,png or gif image");
-                    }
-                }
+
                     // Generate a 128-bit salt sing a sequence of
                 string salt;
                 string hashedPassword = _userService.HashPassword(user.Password, out salt);
-                //picture
-                var uploadsFolderPath = "../LebUpWork/Uploads/ProfilePicture/";
-                if (signupResources.ProfilePicture != null && signupResources.ProfilePicture.Length > 0)
-                {
-                    // Generate the filename using the CompanyId or any other unique identifier
-                    var guidFileName = user.Email + Path.GetExtension(signupResources.ProfilePicture.FileName);
-                    var filePath = Path.Combine(uploadsFolderPath, guidFileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await signupResources.ProfilePicture.CopyToAsync(stream);
-                    }
-
-                    // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
-                    user.ProfilePicture = guidFileName;
-                }
-                //end of picture
-                //CV
-                var uploadsFolderPathCV = "../LebUpWork/Uploads/CV/";
-                if (signupResources.CVpdf != null && signupResources.CVpdf.Length > 0)
-                {
-                    // Generate the filename using the CompanyId or any other unique identifier
-                    var guidFileName = signupResources.Email + Path.GetExtension(signupResources.CVpdf.FileName);
-                    var filePath = Path.Combine(uploadsFolderPathCV, guidFileName);
-
-                    using (var stream = new FileStream(filePath, FileMode.Create))
-                    {
-                        await signupResources.CVpdf.CopyToAsync(stream);
-                    }
-
-                    // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
-                    user.CVpdf = guidFileName;
-                }
-                //end of CV
                 var newUser = new User
                 {
                     FirstName = user.FirstName,
@@ -129,13 +83,12 @@ namespace LebUpwork.Api.Controllers
                     Salt = salt,
                     RoleId = 1,
                     //optional
-                    PhoneNumber = user.PhoneNumber ?? null,
-                    CVpdf = user.CVpdf ?? null,
-                    ProfilePicture = user.ProfilePicture ?? null,
+                    //PhoneNumber = user.PhoneNumber ?? null,
+                    //CVpdf =  null,
+                    //ProfilePicture = user.ProfilePicture ?? null,
 
                 };
                 var createResult = await _userService.CreateUser(newUser);
-
                 return Ok("User created successfully");
             }
             catch (Exception ex)
@@ -177,12 +130,17 @@ namespace LebUpwork.Api.Controllers
         }
         //update profile picture
         [Authorize]
-        [HttpPut]
-        public async Task<IActionResult> UpdateProfilePicture([FromForm]UpdateUserProfilePicture ProfilePictureResources)
+        [HttpPut("UpdatePfp")]
+        public async Task<IActionResult> UpdateProfilePicture([FromForm] UpdateUserProfilePicture ProfilePictureResources)
         {
             try
             {
-                var user = _mapper.Map<UpdateUserProfilePicture, User>(ProfilePictureResources);
+                var userResource = _mapper.Map<UpdateUserProfilePicture, User>(ProfilePictureResources);
+                User user =await _userService.GetUserById(userResource.UserId);
+                if(user == null)
+                {
+                    return BadRequest("User was not found");
+                }
                 if (!ModelState.IsValid)
                 {
                     return BadRequest(ModelState);
@@ -197,7 +155,10 @@ namespace LebUpwork.Api.Controllers
                     // Generate the filename using the CompanyId or any other unique identifier
                     var guidFileName = user.Email + Path.GetExtension(ProfilePictureResources.ProfilePicture.FileName);
                     var filePath = Path.Combine(uploadsFolderPath, guidFileName);
-
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath); // Delete the old file
+                    }
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
                         await ProfilePictureResources.ProfilePicture.CopyToAsync(stream);
@@ -211,10 +172,57 @@ namespace LebUpwork.Api.Controllers
                 {
                     return BadRequest("Invalid Image");
                 }
-
-
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize]
+        [HttpPut("UpdateCV")]
+        public async Task<IActionResult> UpdateCV([FromForm] UpdateUserCV CVResources)
+        {
+            try
+            {
+                var userResource = _mapper.Map<UpdateUserCV, User>(CVResources);
+                User user = await _userService.GetUserById(userResource.UserId);
+                if (user == null)
+                {
+                    return BadRequest("User was not found");
+                }
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var uploadsFolderPath = "../LebUpWork/Uploads/CV/";
+                if (CVResources.CVpdf != null && CVResources.CVpdf.Length > 0)
+                {
+                    if (!_fileValidation.IsFileValid(CVResources.CVpdf))
+                    {
+                        return BadRequest("Invalid File format, please choose pdf File");
+                    }
+                    // Generate the filename using the CompanyId or any other unique identifier
+                    var guidFileName = user.Email + Path.GetExtension(CVResources.CVpdf.FileName);
+                    var filePath = Path.Combine(uploadsFolderPath, guidFileName);
+                    if (System.IO.File.Exists(filePath))
+                    {
+                        System.IO.File.Delete(filePath); // Delete the old file
+                    }
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await CVResources.CVpdf.CopyToAsync(stream);
+                    }
+
+                    // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
+                    user.ProfilePicture = guidFileName;
+                    return Ok("CV updated");
+                }
+                else
+                {
+                    return BadRequest("Invalid CV");
+                }
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

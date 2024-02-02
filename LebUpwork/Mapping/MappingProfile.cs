@@ -2,6 +2,7 @@
 using LebUpwor.core.Models;
 using LebUpwork.Api.Resources;
 using LebUpwork.Api.Resources.Save;
+using LebUpwork.Api.Resources.Update;
 
 namespace LebUpwork.Api.Mapping
 
@@ -21,6 +22,7 @@ namespace LebUpwork.Api.Mapping
 
             //Source to domain
             CreateMap<UserResources, User>();
+          
             CreateMap<JobResources, Job>();
             CreateMap<MessageResources, Message>();
             CreateMap<CashOutHistoryResources, CashOutHistory>();
@@ -36,6 +38,10 @@ namespace LebUpwork.Api.Mapping
             CreateMap<SaveCashOutHistoryResources, CashOutHistory>();
             CreateMap<SaveAppliedToTaskResources, AppliedToTask>();
             CreateMap<SaveTokenHistoryResources, TokenHistory>();
+
+            CreateMap<UpdateUserProfilePicture, User>();
+            CreateMap<UpdateUserCV, User>();
+
         }
     }
 }
