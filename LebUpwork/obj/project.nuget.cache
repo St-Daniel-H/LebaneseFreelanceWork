@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "NUKad0sMRdkHsQj/zI2dcJnN1rrSko17WiHKRjwr4oY2G4VERCbe7Z10lN3482t+sHx1sRid1x2eiePlaAeqgQ==",
+  "dgSpecHash": "mQvXVsMUkrtlXyfidUYU2nIZMb73B7jxtNBmS79lSUxOSXPhhXtV/OYkLtlG9H+r9/XDMhCygDKazqG3FBJltg==",
   "success": true,
   "projectFilePath": "C:\\Users\\danih\\source\\repos\\LebUpwork\\LebUpwork\\LebUpwork.Api.csproj",
   "expectedPackageFiles": [
@@ -68,7 +68,7 @@
     "C:\\Users\\danih\\.nuget\\packages\\microsoft.sqlserver.server\\1.0.0\\microsoft.sqlserver.server.1.0.0.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\microsoft.visualstudio.azure.containers.tools.targets\\1.19.5\\microsoft.visualstudio.azure.containers.tools.targets.1.19.5.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\microsoft.win32.registry\\4.5.0\\microsoft.win32.registry.4.5.0.nupkg.sha512",
-    "C:\\Users\\danih\\.nuget\\packages\\microsoft.win32.systemevents\\6.0.0\\microsoft.win32.systemevents.6.0.0.nupkg.sha512",
+    "C:\\Users\\danih\\.nuget\\packages\\microsoft.win32.systemevents\\7.0.0\\microsoft.win32.systemevents.7.0.0.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\mono.texttemplating\\2.2.1\\mono.texttemplating.2.2.1.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
@@ -79,7 +79,7 @@
     "C:\\Users\\danih\\.nuget\\packages\\system.configuration.configurationmanager\\6.0.1\\system.configuration.configurationmanager.6.0.1.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\system.diagnostics.diagnosticsource\\6.0.0\\system.diagnostics.diagnosticsource.6.0.0.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\system.diagnostics.eventlog\\6.0.0\\system.diagnostics.eventlog.6.0.0.nupkg.sha512",
-    "C:\\Users\\danih\\.nuget\\packages\\system.drawing.common\\6.0.0\\system.drawing.common.6.0.0.nupkg.sha512",
+    "C:\\Users\\danih\\.nuget\\packages\\system.drawing.common\\7.0.0\\system.drawing.common.7.0.0.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\system.formats.asn1\\5.0.0\\system.formats.asn1.5.0.0.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\system.identitymodel.tokens.jwt\\7.3.0\\system.identitymodel.tokens.jwt.7.3.0.nupkg.sha512",
     "C:\\Users\\danih\\.nuget\\packages\\system.memory\\4.5.4\\system.memory.4.5.4.nupkg.sha512",

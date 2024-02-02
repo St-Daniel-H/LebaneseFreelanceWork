@@ -16,6 +16,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using LebUpwork.Api.Resources.Update;
 
 namespace LebUpwork.Api.Controllers
 {
@@ -29,11 +30,12 @@ namespace LebUpwork.Api.Controllers
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
         private readonly JwtSettings _jwtSettings;
+        private readonly FileValidation _fileValidation;
 
-        public UserController(IUserService userService, IMapper mapper, IOptionsSnapshot<JwtSettings> jwtSettings)
+        public UserController(IUserService userService, IMapper mapper, IOptionsSnapshot<JwtSettings> jwtSettings,FileValidation fileValidation)
         {
             this._mapper = mapper;
-
+            this._fileValidation = fileValidation;
             this._userService = userService;
             this._jwtSettings = jwtSettings.Value;
         }
@@ -67,7 +69,21 @@ namespace LebUpwork.Api.Controllers
                     ModelState.AddModelError("Email", "Email already exists");
                     return BadRequest(ModelState);
                 }
-                // Generate a 128-bit salt sing a sequence of
+                if (signupResources.CVpdf != null && signupResources.CVpdf.Length > 0)
+                {
+                    if (!_fileValidation.IsFileValid(signupResources.CVpdf))
+                    {
+                        return BadRequest("Invalid CV format, please upload a pdf file ");
+                    }
+                }
+                if (signupResources.ProfilePicture != null && signupResources.ProfilePicture.Length > 0)
+                {
+                    if (!_fileValidation.IsImageValid(signupResources.ProfilePicture))
+                    {
+                        return BadRequest("Invalid Image format, please choose jpg,png or gif image");
+                    }
+                }
+                    // Generate a 128-bit salt sing a sequence of
                 string salt;
                 string hashedPassword = _userService.HashPassword(user.Password, out salt);
                 //picture
@@ -93,7 +109,7 @@ namespace LebUpwork.Api.Controllers
                 {
                     // Generate the filename using the CompanyId or any other unique identifier
                     var guidFileName = signupResources.Email + Path.GetExtension(signupResources.CVpdf.FileName);
-                    var filePath = Path.Combine(uploadsFolderPath, guidFileName);
+                    var filePath = Path.Combine(uploadsFolderPathCV, guidFileName);
 
                     using (var stream = new FileStream(filePath, FileMode.Create))
                     {
@@ -155,6 +171,50 @@ namespace LebUpwork.Api.Controllers
                 return Ok(GenerateJwt(getUser));
             }
             catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        //update profile picture
+        [Authorize]
+        [HttpPut]
+        public async Task<IActionResult> UpdateProfilePicture([FromForm]UpdateUserProfilePicture ProfilePictureResources)
+        {
+            try
+            {
+                var user = _mapper.Map<UpdateUserProfilePicture, User>(ProfilePictureResources);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                var uploadsFolderPath = "../LebUpWork/Uploads/ProfilePicture/";
+                if (ProfilePictureResources.ProfilePicture != null && ProfilePictureResources.ProfilePicture.Length > 0)
+                {
+                    if (!_fileValidation.IsImageValid(ProfilePictureResources.ProfilePicture))
+                    {
+                        return BadRequest("Invalid Image format, please choose jpg,png or gif image");
+                    }
+                    // Generate the filename using the CompanyId or any other unique identifier
+                    var guidFileName = user.Email + Path.GetExtension(ProfilePictureResources.ProfilePicture.FileName);
+                    var filePath = Path.Combine(uploadsFolderPath, guidFileName);
+
+                    using (var stream = new FileStream(filePath, FileMode.Create))
+                    {
+                        await ProfilePictureResources.ProfilePicture.CopyToAsync(stream);
+                    }
+
+                    // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
+                    user.ProfilePicture = guidFileName;
+                    return Ok("Image updated");
+                }
+                else
+                {
+                    return BadRequest("Invalid Image");
+                }
+
+
+            }
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }

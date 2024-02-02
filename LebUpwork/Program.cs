@@ -13,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using LebUpwork.Api.Extensions;
 using LebUpwork.Api.Settings;
+using LebUpwork.Api.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -103,6 +104,7 @@ builder.Services.AddScoped<ICashOutHistoryService, CashOutHistoryService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 
+builder.Services.AddTransient<FileValidation>();
 
 
 //automapper
