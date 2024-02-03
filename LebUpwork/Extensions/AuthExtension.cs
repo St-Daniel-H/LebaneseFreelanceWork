@@ -1,6 +1,7 @@
 ﻿using LebUpwork.Api.Settings;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 using System.Text;
 
 namespace LebUpwork.Api.Extensions
@@ -29,6 +30,7 @@ namespace LebUpwork.Api.Extensions
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
                         ClockSkew = TimeSpan.Zero,
                         RoleClaimType = "role",
+                        NameClaimType = "UserId",
                     };
                 });
 

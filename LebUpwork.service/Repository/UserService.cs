@@ -18,7 +18,10 @@ namespace LebUpwork.Api.Repository
         {
             return await _unitOfWork.Users.GetAllUsers();
         }
-
+        public async Task CommitChanges()
+        {
+            await _unitOfWork.CommitAsync();
+        }
         public async Task<User> GetUserByEmail(string email)
         {
             return await _unitOfWork.Users.GetUserByEmail(email);

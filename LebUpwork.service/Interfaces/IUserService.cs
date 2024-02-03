@@ -20,6 +20,6 @@ namespace LebUpwork.Api.Interfaces
         //end of wallet stuff
         string HashPassword(string password, out string salt);
         bool CheckPassword(User user,string password);
-
+        Task CommitChanges();
     }
 }

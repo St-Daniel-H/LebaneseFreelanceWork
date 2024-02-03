@@ -135,8 +135,16 @@ namespace LebUpwork.Api.Controllers
         {
             try
             {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);//userid from the jwt
+                if (userIdClaim == null)
+                {
+                    // Handle case where user ID claim is missing
+                    return Unauthorized("Unauthorized");
+                }
+                string userId = userIdClaim.Value;//the value of the userid from the jwt
+                
                 var userResource = _mapper.Map<UpdateUserProfilePicture, User>(ProfilePictureResources);
-                User user =await _userService.GetUserById(userResource.UserId);
+                User user =await _userService.GetUserById(int.Parse(userId));
                 if(user == null)
                 {
                     return BadRequest("User was not found");
@@ -153,7 +161,7 @@ namespace LebUpwork.Api.Controllers
                         return BadRequest("Invalid Image format, please choose jpg,png or gif image");
                     }
                     // Generate the filename using the CompanyId or any other unique identifier
-                    var guidFileName = user.Email + Path.GetExtension(ProfilePictureResources.ProfilePicture.FileName);
+                    var guidFileName = user.UserId + Path.GetExtension(ProfilePictureResources.ProfilePicture.FileName);
                     var filePath = Path.Combine(uploadsFolderPath, guidFileName);
                     if (System.IO.File.Exists(filePath))
                     {
@@ -166,6 +174,7 @@ namespace LebUpwork.Api.Controllers
 
                     // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
                     user.ProfilePicture = guidFileName;
+                    await _userService.CommitChanges();
                     return Ok("Image updated");
                 }
                 else
@@ -184,8 +193,16 @@ namespace LebUpwork.Api.Controllers
         {
             try
             {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);//userid from the jwt
+                if (userIdClaim == null)
+                {
+                    // Handle case where user ID claim is missing
+                    return Unauthorized("Unauthorized");
+                }
+                string userId = userIdClaim.Value;//the value of the userid from the jwt
+
                 var userResource = _mapper.Map<UpdateUserCV, User>(CVResources);
-                User user = await _userService.GetUserById(userResource.UserId);
+                User user = await _userService.GetUserById(int.Parse(userId));
                 if (user == null)
                 {
                     return BadRequest("User was not found");
@@ -202,7 +219,7 @@ namespace LebUpwork.Api.Controllers
                         return BadRequest("Invalid File format, please choose pdf File");
                     }
                     // Generate the filename using the CompanyId or any other unique identifier
-                    var guidFileName = user.Email + Path.GetExtension(CVResources.CVpdf.FileName);
+                    var guidFileName = user.UserId + Path.GetExtension(CVResources.CVpdf.FileName);
                     var filePath = Path.Combine(uploadsFolderPath, guidFileName);
                     if (System.IO.File.Exists(filePath))
                     {
@@ -215,6 +232,7 @@ namespace LebUpwork.Api.Controllers
 
                     // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
                     user.ProfilePicture = guidFileName;
+                    await _userService.CommitChanges();
                     return Ok("CV updated");
                 }
                 else
@@ -233,10 +251,11 @@ namespace LebUpwork.Api.Controllers
             var claims = new List<Claim>
             {
                new Claim(JwtRegisteredClaimNames.Sub, user.UserId.ToString()),
-               new Claim(ClaimTypes.Name, user.FirstName),
+             //  new Claim(ClaimTypes.Name, user.FirstName),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                 new Claim(ClaimTypes.NameIdentifier, user.UserId.ToString()),
-               new Claim(ClaimTypes.Role, user.Role.RoleName)  // error here null reference
+               new Claim(ClaimTypes.Role, user.Role.RoleName),  
+               new Claim(ClaimTypes.Name,user.UserId.ToString()),
              };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Secret));
