@@ -29,8 +29,9 @@ namespace LebUpwork.Api.Extensions
                         ValidAudience = jwtSettings.Issuer,
                         IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret)),
                         ClockSkew = TimeSpan.Zero,
-                        RoleClaimType = "role",
+                        //RoleClaimType = "role",
                         NameClaimType = "UserId",
+                        RoleClaimType = ClaimTypes.Role
                     };
                 });
 

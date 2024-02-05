@@ -40,14 +40,23 @@ namespace LebUpwork.Api.Controllers
             this._userService = userService;
             this._jwtSettings = jwtSettings.Value;
         }
-        [HttpGet("GetAllUsers")]
-        //[Authorize(Roles = "Admin")]
-        [AllowAnonymous]
-        public async Task<ActionResult<IEnumerable<User>>> GetAllUsers()
+        [HttpGet("UserInfo/{userId}")]
+        [Authorize]
+        public async Task<IActionResult> GetUserInfo(string userId)
         {
-            var users = await _userService.GetAllUsers();
-            var userResources = _mapper.Map<IEnumerable<User>, IEnumerable<UserResources>>(users);
-            return Ok(userResources);
+            try
+            {
+                User user = await _userService.GetUserById(int.Parse(userId));
+                var userResources = _mapper.Map<User,UserResources>(user);
+                if (user==null)
+                {
+                    return BadRequest("User was not found");
+                }
+                return Ok(userResources);
+            }catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
         }
         [HttpPost("Signup")]
         [AllowAnonymous] // Allow unauthenticated access

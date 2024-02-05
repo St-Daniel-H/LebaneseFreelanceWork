@@ -1,6 +1,13 @@
-﻿namespace LebUpwork.Api.Controllers
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+
+namespace LebUpwork.Api.Controllers
 {
-    public class JobController
+    [Route("api/[controller]")]
+    [ApiController]
+    [Authorize]
+    public class JobController : ControllerBase
     {
+
     }
 }

@@ -2,7 +2,7 @@
 
 namespace LebUpwork.Api.Resources.Update
 {
-    public class UpdateUserStatus
+    public class UpdateUserStatusResources
     {
         public required string Status { get; set; }
     }
