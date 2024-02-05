@@ -17,6 +17,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using LebUpwork.Api.Resources.Update;
+using LebUpwork.Api.Validators.Update;
 
 namespace LebUpwork.Api.Controllers
 {
@@ -241,6 +242,44 @@ namespace LebUpwork.Api.Controllers
                 }
             }
             catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize]
+        [HttpPut("UpdateStatus")]
+        public async Task<IActionResult> UpdateStatus([FromBody] UpdateUserStatusResources StatusResources)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);//userid from the jwt
+                if (userIdClaim == null)
+                {
+                    // Handle case where user ID claim is missing
+                    return Unauthorized("Unauthorized");
+                }
+                string userId = userIdClaim.Value;//the value of the userid from the jwt
+
+                var userResource = _mapper.Map<UpdateUserStatusResources, User>(StatusResources);
+                User user = await _userService.GetUserById(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+                //validate with validator
+                var validator = new UpdateStatusValidator();
+                var validationResult = await validator.ValidateAsync(StatusResources);
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                user.Status=StatusResources.Status;
+                await _userService.CommitChanges();
+                return Ok("Status Updated");
+            }
+            catch(Exception ex)
             {
                 return BadRequest(ex.Message);
             }

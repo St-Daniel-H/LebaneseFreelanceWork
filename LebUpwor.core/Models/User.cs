@@ -16,12 +16,15 @@ namespace LebUpwor.core.Models
         public required string FirstName { get; set; }
         public required string LastName { get; set; }
         public required string Email { get; set; }
-        public  string Password { get; set; }
-        public  string Salt { get; set; }
+        public required string Password { get; set; }
+        public required string Salt { get; set; }
         public string? PhoneNumber { get; set; }
+        public string? Status { get; set; }
 
+        public bool? IsOnline { get; set; }
         public double Token { get; set; }
         public DateTime JoinedDate { get; set; }
+        public DateTime LastSeenDate { get; set; }
         public string? ProfilePicture { get; set; }
         public string? CVpdf { get; set; }
         public int? RoleId { get; set; }
@@ -29,6 +32,7 @@ namespace LebUpwor.core.Models
         {
             Token = 0;
             JoinedDate = DateTime.Now;
+            LastSeenDate = DateTime.Now;
         }
 
 
