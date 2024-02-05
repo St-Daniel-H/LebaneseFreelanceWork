@@ -13,6 +13,6 @@ namespace LebUpwor.core.Models
         public int RoleId { get; set; }
         public required string RoleName { get; set; }
 
-        public virtual ICollection<User>? Users { get; set; }
+        public  ICollection<User>? Users { get; set; }
     }
 }

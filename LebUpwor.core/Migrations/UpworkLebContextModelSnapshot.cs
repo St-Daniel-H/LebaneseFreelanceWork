@@ -22,6 +22,21 @@ namespace LebUpwor.core.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("JobTag", b =>
+                {
+                    b.Property<int>("JobsJobId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TagsTagId")
+                        .HasColumnType("int");
+
+                    b.HasKey("JobsJobId", "TagsTagId");
+
+                    b.HasIndex("TagsTagId");
+
+                    b.ToTable("JobTag");
+                });
+
             modelBuilder.Entity("LebUpwor.core.Models.AppliedToTask", b =>
                 {
                     b.Property<int>("AppliedToTaskId")
@@ -166,6 +181,31 @@ namespace LebUpwor.core.Migrations
                     b.ToTable("Roles");
                 });
 
+            modelBuilder.Entity("LebUpwor.core.Models.Tag", b =>
+                {
+                    b.Property<int>("TagId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TagId"));
+
+                    b.Property<int?>("AddedByUserId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TagName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("TagId");
+
+                    b.HasIndex("AddedByUserId");
+
+                    b.ToTable("Tag");
+                });
+
             modelBuilder.Entity("LebUpwor.core.Models.TokenHistory", b =>
                 {
                     b.Property<int>("TokenHistoryId")
@@ -268,6 +308,36 @@ namespace LebUpwor.core.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("TagUser", b =>
+                {
+                    b.Property<int>("TagsTagId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UsersUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("TagsTagId", "UsersUserId");
+
+                    b.HasIndex("UsersUserId");
+
+                    b.ToTable("TagUser");
+                });
+
+            modelBuilder.Entity("JobTag", b =>
+                {
+                    b.HasOne("LebUpwor.core.Models.Job", null)
+                        .WithMany()
+                        .HasForeignKey("JobsJobId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LebUpwor.core.Models.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsTagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("LebUpwor.core.Models.AppliedToTask", b =>
                 {
                     b.HasOne("LebUpwor.core.Models.Job", "Job")
@@ -336,6 +406,16 @@ namespace LebUpwor.core.Migrations
                     b.Navigation("Sender");
                 });
 
+            modelBuilder.Entity("LebUpwor.core.Models.Tag", b =>
+                {
+                    b.HasOne("LebUpwor.core.Models.User", "AddedByUser")
+                        .WithMany()
+                        .HasForeignKey("AddedByUserId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("AddedByUser");
+                });
+
             modelBuilder.Entity("LebUpwor.core.Models.TokenHistory", b =>
                 {
                     b.HasOne("LebUpwor.core.Models.Job", "Job")
@@ -370,6 +450,21 @@ namespace LebUpwor.core.Migrations
                         .HasForeignKey("RoleId");
 
                     b.Navigation("Role");
+                });
+
+            modelBuilder.Entity("TagUser", b =>
+                {
+                    b.HasOne("LebUpwor.core.Models.Tag", null)
+                        .WithMany()
+                        .HasForeignKey("TagsTagId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("LebUpwor.core.Models.User", null)
+                        .WithMany()
+                        .HasForeignKey("UsersUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("LebUpwor.core.Models.Job", b =>

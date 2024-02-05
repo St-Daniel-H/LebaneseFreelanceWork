@@ -96,6 +96,14 @@ namespace LebUpwor.core.Models
                 .OnDelete(DeleteBehavior.Restrict);
             base.OnModelCreating(modelBuilder);
 
+            modelBuilder.Entity<Tag>()
+                      .HasOne(t => t.AddedByUser)
+                      .WithMany() // Assuming one user can add multiple tags
+                      .HasForeignKey(t => t.AddedByUserId)
+                      .OnDelete(DeleteBehavior.SetNull);
+
+
+
 
         }
     }

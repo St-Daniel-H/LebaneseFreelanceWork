@@ -24,10 +24,10 @@ namespace LebUpwor.core.Models
         public DateTime FinishedDate { get; set; }
         public  int FinishedByUserId { get; set; }
         [ForeignKey("FinishedByUserId")]
-        public virtual User? FinishedByUser { get; set; }
+        public  User? FinishedByUser { get; set; }
 
-        public virtual ICollection<AppliedToTask> AppliedUsers { get; set; }
-
+        public  ICollection<AppliedToTask> AppliedUsers { get; set; }
+        public  ICollection<Tag>? Tags { get; set; }
         public Job()
         {
             PostedDate =  DateTime.Now;

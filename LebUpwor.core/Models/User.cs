@@ -37,17 +37,17 @@ namespace LebUpwor.core.Models
 
 
         // Navigation property for the associated role
-        public virtual Role? Role { get; set; }
-        public virtual ICollection<Job>? JobsPosted { get; set; }
-        public virtual ICollection<Job>? JobsFinished { get; set; }
-        public virtual ICollection<AppliedToTask>? AppliedToTasks { get; set; }
-        public virtual ICollection<Message> SentMessages { get; set; }
-        public virtual ICollection<Message> ReceivedMessages { get; set; }
-        public virtual ICollection<CashOutHistory> CashOutHistory { get; set; }
-        public virtual ICollection<TokenHistory> SentTokenHistories { get; set; }
-        public virtual ICollection<TokenHistory> ReceivedTokenHistories { get; set; }
-        
+        public  Role? Role { get; set; }
+        public  ICollection<Job>? JobsPosted { get; set; }
+        public  ICollection<Job>? JobsFinished { get; set; }
+        public  ICollection<AppliedToTask>? AppliedToTasks { get; set; }
+        public  ICollection<Message> SentMessages { get; set; }
+        public  ICollection<Message> ReceivedMessages { get; set; }
+        public  ICollection<CashOutHistory> CashOutHistory { get; set; }
+        public  ICollection<TokenHistory> SentTokenHistories { get; set; }
+        public  ICollection<TokenHistory> ReceivedTokenHistories { get; set; }
 
+        public  ICollection<Tag>? Tags { get; set; }
 
     }
 }

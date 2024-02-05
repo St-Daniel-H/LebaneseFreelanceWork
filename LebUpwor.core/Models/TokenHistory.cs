@@ -18,11 +18,11 @@ namespace LebUpwor.core.Models
         public required int SenderId { get; set; }
         public required int ReceiverId { get; set; }
         public required int TaskId { get; set; }
-        public virtual Job Job { get; set; }
+        public  Job Job { get; set; }
         [ForeignKey("SenderId")]
         public virtual  User Sender { get; set; }
         [ForeignKey("ReceiverId")]
-        public virtual  User Receiver { get; set; }
+        public   User Receiver { get; set; }
         public TokenHistory()
         {
             Date = DateTime.Now;
