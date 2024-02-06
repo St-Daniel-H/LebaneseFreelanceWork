@@ -15,6 +15,7 @@ namespace LebUpwor.core.Repository
         private CashOutHistoryRepository _cashoutRepository;
         private TokenHistoryRepository _tokenHRepository;
         private MessageRepository _messageRepository;
+        private TagRepository _tagRepository;
 
         public UnitOfWork(UpworkLebContext context)
         {
@@ -29,7 +30,7 @@ namespace LebUpwor.core.Repository
         public ITokenHistoryRepository TokenHistories => _tokenHRepository = _tokenHRepository ?? new TokenHistoryRepository(_context);
         public IMessageRepository Messages => _messageRepository = _messageRepository ?? new MessageRepository(_context);
 
-
+        public ITagRepository Tags => _tagRepository = _tagRepository ?? new TagRepository(_context);
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();

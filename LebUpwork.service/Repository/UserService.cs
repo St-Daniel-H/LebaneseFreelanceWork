@@ -34,6 +34,10 @@ namespace LebUpwork.Api.Repository
         {
             return await _unitOfWork.Users.GetUserById(Id);
         }
+        public async Task<User> GetUserByIdWithTags(int id)
+        {
+            return await _unitOfWork.Users.GetUserByIdWithTags(id);
+        }
         public async Task<User> CreateUser(User NewUser)
         {
             await _unitOfWork.Users.AddAsync(NewUser);
@@ -98,5 +102,6 @@ namespace LebUpwork.Api.Repository
             return userPassword == hashedPassword;
         }
 
+       
     }
 }

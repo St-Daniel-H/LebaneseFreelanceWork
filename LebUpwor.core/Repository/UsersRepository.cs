@@ -52,6 +52,13 @@ namespace LebUpwor.core.Repository
                 .ToListAsync();
         }
 
+        public async Task<User> GetUserByIdWithTags(int id)
+        {
+            return await UpworkLebContext.Users
+                 .Include(user => user.Tags)
+                 .Where(user => user.UserId == id)
+                .SingleOrDefaultAsync();
+        }
 
         private UpworkLebContext UpworkLebContext
         {

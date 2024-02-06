@@ -30,7 +30,7 @@ namespace LebUpwor.core.Models
         public virtual DbSet<CashOutHistory> CashOutHistories { get; set; } = null!;
         public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<TokenHistory> TokenHistories { get; set; } = null!;
-        public virtual DbSet<Tag> Tags { get; set; }
+        public virtual DbSet<Tag> Tags { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //if (!optionsBuilder.IsConfigured)

@@ -14,6 +14,7 @@ using System.Text;
 using LebUpwork.Api.Extensions;
 using LebUpwork.Api.Settings;
 using LebUpwork.Api.Validators;
+using LebUpwork.service.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -104,6 +105,8 @@ builder.Services.AddScoped<ITokenHistoryRepository, TokenHistoryRepository>();
 builder.Services.AddScoped<ICashOutHistoryRepository, CashOutHistoryRepository>();
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<ITagRepository, TagRepository>();
+
 
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IJobService, JobService>();
@@ -112,6 +115,7 @@ builder.Services.AddScoped<ITokenHistoryService, TokenHistoryService>();
 builder.Services.AddScoped<ICashOutHistoryService, CashOutHistoryService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<ITagService, TagService>();
 
 builder.Services.AddTransient<FileValidation>();
 

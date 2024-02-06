@@ -40,6 +40,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Resources\Admin\" />
     <Folder Include="Uploads\CV\" />
     <Folder Include="Uploads\ProfilePicture\" />
   </ItemGroup>

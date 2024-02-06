@@ -14,5 +14,7 @@ namespace LebUpwor.core.Interfaces
         Task<Tag> GetTagByName(String name);
         Task<IEnumerable<Tag>> GetTagsByMakerId(int userId);
         Task<IEnumerable<Tag>> GetTagsBySimilarName(string name);
+        Task<Tag> GetTagById(int Id);
+
     }
 }

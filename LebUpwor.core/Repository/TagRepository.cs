@@ -28,7 +28,7 @@ namespace LebUpwor.core.Repository
         public async Task<Tag> GetTagByName(string name)
         {
             return await UpworkLebContext.Tags
-                .Where(u => u.TagName == name)
+         .Where(u => u.TagName.ToLower() == name.ToLower())
                 .SingleOrDefaultAsync();
         }
 
@@ -38,12 +38,16 @@ namespace LebUpwor.core.Repository
                 .Where(u=> u.AddedByUserId == userId)
               .ToListAsync();
         }
-
+        public async Task<Tag> GetTagById(int Id)
+        {
+            return await UpworkLebContext.Tags.Where(u => u.TagId == Id).SingleOrDefaultAsync();
+        }
         public async Task<IEnumerable<Tag>> GetTagsBySimilarName(string name)
         {
             return await UpworkLebContext.Tags
-                  .Where(u => u.TagName.Contains(name))
+                .Where(u => u.TagName.ToLower().Contains(name.ToLower()))
                 .ToListAsync();
         }
+
     }
 }

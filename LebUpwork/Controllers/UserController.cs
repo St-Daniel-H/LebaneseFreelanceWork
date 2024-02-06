@@ -18,6 +18,8 @@ using System.Security.Claims;
 using System.Text;
 using LebUpwork.Api.Resources.Update;
 using LebUpwork.Api.Validators.Update;
+using Azure;
+using LebUpwork.service.Interfaces;
 
 namespace LebUpwork.Api.Controllers
 {
@@ -32,13 +34,14 @@ namespace LebUpwork.Api.Controllers
         private readonly IUserService _userService;
         private readonly JwtSettings _jwtSettings;
         private readonly FileValidation _fileValidation;
-
-        public UserController(IUserService userService, IMapper mapper, IOptionsSnapshot<JwtSettings> jwtSettings,FileValidation fileValidation)
+        private readonly ITagService _tagService;
+        public UserController(ITagService tagService,IUserService userService, IMapper mapper, IOptionsSnapshot<JwtSettings> jwtSettings,FileValidation fileValidation)
         {
             this._mapper = mapper;
             this._fileValidation = fileValidation;
             this._userService = userService;
             this._jwtSettings = jwtSettings.Value;
+            this._tagService = tagService;
         }
         [HttpGet("UserInfo/{userId}")]
         [Authorize]
@@ -289,6 +292,105 @@ namespace LebUpwork.Api.Controllers
                 return Ok("Status Updated");
             }
             catch(Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [Authorize]
+        [HttpPut("UpdateTags")]
+        public async Task<IActionResult> UpdateTags([FromBody] UpdateUserTags tagResources)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);//userid from the jwt
+                if (userIdClaim == null)
+                {
+                    // Handle case where user ID claim is missing
+                    return Unauthorized("Unauthorized");
+                }
+                string userId = userIdClaim.Value;//the value of the userid from the jwt
+
+                var userResource = _mapper.Map<UpdateUserTags, User>(tagResources);
+                User user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+                //validate with validator
+                var validator = new UpdateTagValidator();
+                var validationResult = await validator.ValidateAsync(tagResources);
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+
+                if ((user.Tags.Count + tagResources.Tags.Count) <= 5)
+                {
+                    foreach (var tag in tagResources.Tags)
+                    {
+                        var newTag = await _tagService.GetTagById(tag.TagId);
+                        if (newTag == null)
+                        {
+                            return BadRequest($"Tag with ID {tag} not found");
+                        }
+                        if (user.Tags.Any(t => t.TagId == newTag.TagId))
+                        {
+                            return BadRequest($"Tag with ID {tag} already exists");
+                        }
+                        user.Tags.Add(newTag);
+                    }
+                }
+                else
+                {
+                    return BadRequest("Exceeded allowed tags");
+                }
+                await _userService.CommitChanges();
+                return Ok("Tags Updated");
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpDelete("RemoveTag/{TagId}")]
+        public async Task<IActionResult> RemoveTag(int TagId)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);//userid from the jwt
+                if (userIdClaim == null)
+                {
+                    // Handle case where user ID claim is missing
+                    return Unauthorized("Unauthorized");
+                }
+                string userId = userIdClaim.Value;//the value of the userid from the jwt
+
+                User user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("User not found");
+                }
+                // Find the tag in the user's tags by its name
+                var tagToRemove = user.Tags.FirstOrDefault(t => t.TagId == TagId);
+
+                if (tagToRemove == null)
+                {
+                    return NotFound("Tag not found in user's tags");
+                }
+
+                // Remove the tag from the user's tags
+                user.Tags.Remove(tagToRemove);
+                //validate with validator
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(ModelState);
+                }
+                await _userService.CommitChanges();
+                return Ok("Tags Updated");
+            }
+            catch (Exception ex)
             {
                 return BadRequest(ex.Message);
             }

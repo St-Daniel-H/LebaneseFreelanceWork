@@ -17,6 +17,10 @@ namespace LebUpwork.service.Repository
         {
             this._unitOfWork = unitOfWork;
         }
+        public async Task<Tag> GetTagById(int Id)
+        {
+            return await _unitOfWork.Tags.GetTagById(Id);
+        }
         public async Task<IEnumerable<Tag>> GetAll()
         {
             return await _unitOfWork.Tags.GetAll();

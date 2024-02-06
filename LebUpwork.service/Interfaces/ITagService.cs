@@ -11,6 +11,7 @@ namespace LebUpwork.service.Interfaces
     {
         Task<Tag> CreateTag(Tag tag);
         Task DeleteTag(Tag tag);
+        Task<Tag> GetTagById(int Id);
         Task<IEnumerable<Tag>> GetAll();
         Task<Tag> GetTagByName(String name);
         Task<IEnumerable<Tag>> GetTagsBySimilarName(String name);

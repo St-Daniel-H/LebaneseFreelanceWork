@@ -43,7 +43,7 @@ namespace LebUpwork.Api.Controllers
         }
         [HttpPost("CreateTag")]
         [Authorize]
-        public async Task<IActionResult> CreateTag([FromForm] SaveTagResources resources)
+        public async Task<IActionResult> CreateTag([FromBody] SaveTagResources resources)
         {
             try
             {
@@ -56,16 +56,16 @@ namespace LebUpwork.Api.Controllers
                 string userId = userIdClaim.Value;
 
                 // Check if the tag name is unique
-                var existingTag = await _tagService.GetTagsByName(resources.TagName);
+                var existingTag = await _tagService.GetTagByName(resources.TagName);
                 if (existingTag != null)
                 {
-                    return Conflict("Tag name must be unique.");
+                    return BadRequest("Tag name must be unique.");
                 }
 
                 var tagResource = _mapper.Map<SaveTagResources, Tag>(resources);
 
                 // Set the user ID for the new tag
-                tagResource.AddedByUserId = userId;
+                tagResource.AddedByUserId = int.Parse(userId);
 
                 // Create the new tag
                 var createdTag = await _tagService.CreateTag(tagResource);
@@ -74,6 +74,22 @@ namespace LebUpwork.Api.Controllers
                 var tagResources = _mapper.Map<Tag, TagResources>(createdTag);
 
                 return Ok(tagResources);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("GetTagsByName/{name}")]
+        [Authorize]
+        public async Task<IActionResult> GetTagByName(string name)
+        {
+            try
+            {
+                // Check if the tag name is unique
+                var tags = await _tagService.GetTagsBySimilarName(name);
+                var Tagsresources = _mapper.Map<IEnumerable<Tag>, IEnumerable<TagResources>>(tags);
+                return Ok(Tagsresources);
             }
             catch (Exception ex)
             {
