@@ -16,6 +16,7 @@ namespace LebUpwor.core.Interfaces
         ICashOutHistoryRepository CashOutHistories { get; }
         IAppliedToTaskRepository AppliedToTasks { get; }
         ITokenHistoryRepository TokenHistories { get; }
+        ITagRepository Tags { get; }
 
 
         Task<int> CommitAsync();
