@@ -17,6 +17,6 @@ namespace LebUpwor.core.DTO
         public  double Offer { get; set; }
         public DateTime PostedDate { get; set; }
 
-        public ICollection<Tag>? Tags { get; set; }
+        public ICollection<TagDTO>? Tags { get; set; }
     }
 }

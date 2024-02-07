@@ -11,6 +11,7 @@ using LebUpwork.Api.Resources;
 using LebUpwor.core.Models;
 using LebUpwork.Api.Resources.Save;
 using Microsoft.Extensions.Logging;
+using LebUpwork.Api.Resources.Update;
 
 namespace LebUpwork.Api.Controllers
 {
@@ -33,7 +34,7 @@ namespace LebUpwork.Api.Controllers
             this._userService = userService;
             this._logger = logger;
         }
-        [HttpGet("JobsWithSimilarTag")]
+        [HttpGet("GetJobsWithSimilarTag")]
         [Authorize]
         public async Task<IActionResult> GetJobsWithSimilarTag(int skip, int pageSize)
         {
@@ -119,5 +120,71 @@ namespace LebUpwork.Api.Controllers
                 return BadRequest(ex.Message);
                 }
             }
+        [HttpPut("UpdateJob")]
+        [Authorize]
+        public async Task<IActionResult> UpdateJob([FromBody] UpdateJobResource jobResources)
+        {
+            try
+            {
+
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized");
+                }
+
+                string userId = userIdClaim.Value;
+                var user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var newJob = _mapper.Map<UpdateJobResource, Job>(jobResources);
+                Job oldJob = await _jobService.GetJobById(newJob.JobId);
+                oldJob.Title = newJob.Title;
+                oldJob.Description = newJob.Description;
+                oldJob.Offer = newJob.Offer;
+                if (oldJob.UserId.ToString() != userId)
+                {
+                    return BadRequest("Unauthorized User");
+                }
+                oldJob.Tags.Clear();
+                if (jobResources.Tags.Count <= 5)
+                {
+                    foreach (var tag in jobResources.Tags)
+                    {
+                        var newTag = await _tagService.GetTagById(tag.TagId);
+                        if (newTag == null)
+                        {
+                            return BadRequest($"Tag with ID {tag} not found");
+                        }
+                        oldJob.Tags.Add(newTag);
+
+                    }
+                }
+                else
+                {
+                    return BadRequest("Exceeded allowed tags");
+                }
+                //newJob.UserId = int.Parse(userId);
+                
+                var returnnewjobResources = _mapper.Map<Job, JobResources>(oldJob);
+                await _jobService.CommitChanges();
+                return Ok(returnnewjobResources);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while saving the entity changes.");
+
+                // Check if there is an inner exception
+                if (ex.InnerException != null)
+                {
+                    // Log the inner exception for more details
+                    _logger.LogError(ex.InnerException, "Inner exception details:");
+                }
+
+                return BadRequest(ex.Message);
+            }
         }
+    }
 }

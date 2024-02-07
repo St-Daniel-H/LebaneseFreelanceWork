@@ -32,15 +32,13 @@ namespace LebUpwor.core.Repository
         {
             return await UpworkLebContext.Jobs
                  .Where(job => job.JobId == Jobid)
+                 .Include(j => j.Tags)
                 .SingleOrDefaultAsync();
         }
         public async Task<IEnumerable<JobDTO>> GetJobsWithTag(ICollection<string> tagStrings,int skip, int pageSize)
         {
             return await UpworkLebContext.Jobs
                  .Where(j => j.IsCompleted == false)
-
-                .Include(j => j.Tags)
-              //  .Include(j =>j.User)             
                 .Where(j => j.Tags.Any(t => tagStrings.Contains(t.TagName)))           
                 .Skip(skip)
                 .Take(pageSize)
@@ -57,7 +55,8 @@ namespace LebUpwor.core.Repository
                         FirstName = j.User.FirstName,
                         LastName = j.User.LastName,
                         ProfilePicture = j.User.ProfilePicture
-                    }
+                    },
+                    Tags = (ICollection<TagDTO>)j.Tags.Select(n => new TagDTO { TagName = n.TagName })
                 })
                 .OrderByDescending(j => j.PostedDate)
                 .ToListAsync();

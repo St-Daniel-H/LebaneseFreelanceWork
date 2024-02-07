@@ -45,7 +45,10 @@ namespace LebUpwork.service.Repository
             _unitOfWork.Jobs.Remove(job);
             await _unitOfWork.CommitAsync();
         }
-
+        public async Task CommitChanges()
+        {
+            await _unitOfWork.CommitAsync();
+        }
         //public  Task<IEnumerable<Job>> GetJobsWithTag(ICollection<Tag> tags, int skip, int pageSize)
         //{
         //    throw new NotImplementedException();
