@@ -15,14 +15,14 @@ namespace LebUpwor.core.Models
 
         public required int UserId { get; set; }
         [ForeignKey("UserId")]
-        public virtual User? User { get; set; }
+        public  User? User { get; set; }
         public required string Title { get; set; }
         public required string Description { get; set; }
         public required double Offer { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime PostedDate { get; set; }
         public DateTime FinishedDate { get; set; }
-        public  int FinishedByUserId { get; set; }
+        public  int? FinishedByUserId { get; set; }
         [ForeignKey("FinishedByUserId")]
         public  User? FinishedByUser { get; set; }
 
@@ -32,7 +32,6 @@ namespace LebUpwor.core.Models
         {
             PostedDate =  DateTime.Now;
             IsCompleted = false;
-            FinishedByUserId = 0;
         }
     }
 }

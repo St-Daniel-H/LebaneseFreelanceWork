@@ -9,7 +9,7 @@ namespace LebUpwork.Api.Validators
     {
         public SaveJobValidator() 
         {
-            RuleFor(a => a.User).NotNull();
+            //RuleFor(a => a.UserId).NotNull();
 
             RuleFor(a => a.Title)
              .NotNull()

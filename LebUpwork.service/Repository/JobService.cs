@@ -1,4 +1,5 @@
-﻿using LebUpwor.core.Interfaces;
+﻿using LebUpwor.core.DTO;
+using LebUpwor.core.Interfaces;
 using LebUpwor.core.Models;
 using LebUpwork.Api.Interfaces;
 using System;
@@ -19,6 +20,10 @@ namespace LebUpwork.service.Repository
         public async Task<Job> GetJobById(int jobId)
         {
             return await _unitOfWork.Jobs.GetJobById(jobId);
+        }
+        public async Task<IEnumerable<JobDTO>> GetJobsWithTag(ICollection<string> tagStrings, int skip, int pageSize)
+        {
+            return await _unitOfWork.Jobs.GetJobsWithTag(tagStrings, skip,pageSize);
         }
         public async Task<Job> CreateJob(Job job) {
             await _unitOfWork.Jobs.AddAsync(job);
@@ -41,5 +46,9 @@ namespace LebUpwork.service.Repository
             await _unitOfWork.CommitAsync();
         }
 
+        //public  Task<IEnumerable<Job>> GetJobsWithTag(ICollection<Tag> tags, int skip, int pageSize)
+        //{
+        //    throw new NotImplementedException();
+        //}
     }
 }

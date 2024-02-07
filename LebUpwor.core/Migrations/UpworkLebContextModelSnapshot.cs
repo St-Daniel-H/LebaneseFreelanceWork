@@ -99,7 +99,7 @@ namespace LebUpwor.core.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("FinishedByUserId")
+                    b.Property<int?>("FinishedByUserId")
                         .HasColumnType("int");
 
                     b.Property<DateTime>("FinishedDate")
@@ -203,7 +203,7 @@ namespace LebUpwor.core.Migrations
 
                     b.HasIndex("AddedByUserId");
 
-                    b.ToTable("Tag");
+                    b.ToTable("Tags");
                 });
 
             modelBuilder.Entity("LebUpwor.core.Models.TokenHistory", b =>
@@ -373,8 +373,7 @@ namespace LebUpwor.core.Migrations
                     b.HasOne("LebUpwor.core.Models.User", "FinishedByUser")
                         .WithMany("JobsFinished")
                         .HasForeignKey("FinishedByUserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("LebUpwor.core.Models.User", "User")
                         .WithMany("JobsPosted")
