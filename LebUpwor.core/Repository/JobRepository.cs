@@ -9,6 +9,7 @@ using System.Drawing.Printing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.Extensions.Logging.EventSource.LoggingEventSource;
 
 namespace LebUpwor.core.Repository
 {
@@ -61,16 +62,37 @@ namespace LebUpwor.core.Repository
                 .OrderByDescending(j => j.PostedDate)
                 .ToListAsync();
         }
+        public async Task<IEnumerable<JobDTO>> GetJobsWithKeyword(string keyword, int skip, int pageSize)
+        {
+            return await UpworkLebContext.Jobs
+            .Where(j=>j.IsCompleted == false)
+            .Where(j => j.Title.Contains(keyword) || j.Description.Contains(keyword))
+                .Skip(skip)
+                .Take(pageSize)
+                .Select(j => new JobDTO
+                {       // Map only the necessary properties from User entity
+                    JobId = j.JobId,
+                    Title = j.Title,
+                    Description = j.Description,
+                    Offer = j.Offer,
+                    PostedDate = j.PostedDate,
+                    User = new UserDTO
+                    {
+                        UserId = j.User.UserId,
+                        FirstName = j.User.FirstName,
+                        LastName = j.User.LastName,
+                        ProfilePicture = j.User.ProfilePicture
+                    },
+                    Tags = (ICollection<TagDTO>)j.Tags.Select(n => new TagDTO { TagName = n.TagName })
+                })
+                .OrderByDescending(j => j.PostedDate)
+                .ToListAsync();
+        }
+
         public async Task<IEnumerable<Job>> GetAllJobs()
         {
             return await UpworkLebContext.Jobs
               .ToListAsync();
-        }
-        public async Task<IEnumerable<Job>> GetJobsWithKeyword(string keywoard)
-        {
-            return await UpworkLebContext.Jobs
-                .Where(j => j.Title.Contains(keywoard) || j.Description.Contains(keywoard))
-                .ToListAsync();
         }
         public async Task<IEnumerable<Job>> GetAllJobsPostedByUser(int userId)
         {

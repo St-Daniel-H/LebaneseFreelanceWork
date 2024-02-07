@@ -62,7 +62,34 @@ namespace LebUpwork.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-            [HttpPost("PostJob")]
+        [HttpGet("GetJobsWithKeywors")]
+        [Authorize]
+        public async Task<IActionResult> GetJobsWithSimilarTag(int skip, int pageSize,string keyword)
+        {
+            try
+            {
+
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized");
+                }
+
+                string userId = userIdClaim.Value;
+                var user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var jobs = await _jobService.GetJobsWithKeyword(keyword, skip, pageSize);
+                return Ok(jobs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPost("PostJob")]
             [Authorize]
             public async Task<IActionResult> PostJob([FromBody] SaveJobResources savejobResources)
             {

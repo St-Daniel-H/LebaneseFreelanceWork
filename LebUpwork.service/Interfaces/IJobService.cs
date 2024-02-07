@@ -9,6 +9,8 @@ namespace LebUpwork.Api.Interfaces
         Task<Job> CreateJob(Job job);
         Task<Job> UpdateJob(Job jobToUpdate, Job job);
         Task<IEnumerable<JobDTO>> GetJobsWithTag(ICollection<string> tagStrings, int skip, int pageSize);
+        Task<IEnumerable<JobDTO>> GetJobsWithKeyword(string keyword, int skip, int pageSize);
+
         Task DeleteJob(Job job);
         Task CommitChanges();
 

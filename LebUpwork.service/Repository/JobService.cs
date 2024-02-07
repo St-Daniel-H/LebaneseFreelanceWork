@@ -23,8 +23,13 @@ namespace LebUpwork.service.Repository
         }
         public async Task<IEnumerable<JobDTO>> GetJobsWithTag(ICollection<string> tagStrings, int skip, int pageSize)
         {
-            return await _unitOfWork.Jobs.GetJobsWithTag(tagStrings, skip,pageSize);
+            return await _unitOfWork.Jobs.GetJobsWithTag(tagStrings, skip, pageSize);
         }
+       public async Task<IEnumerable<JobDTO>> GetJobsWithKeyword(string keyword, int skip, int pageSize)
+        {
+            return await _unitOfWork.Jobs.GetJobsWithKeyword(keyword, skip, pageSize);
+        }
+
         public async Task<Job> CreateJob(Job job) {
             await _unitOfWork.Jobs.AddAsync(job);
             await _unitOfWork.CommitAsync();
