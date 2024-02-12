@@ -1,4 +1,5 @@
-﻿using LebUpwor.core.Interfaces;
+﻿using LebUpwor.core.DTO;
+using LebUpwor.core.Interfaces;
 using LebUpwor.core.Models;
 using Microsoft.EntityFrameworkCore;
 using startup.Repository;
@@ -21,11 +22,25 @@ namespace LebUpwor.core.Repository
         {
             get { return Context as UpworkLebContext; }
         }
-        public async Task<IEnumerable<AppliedToTask>> GetAllUsersWithTaskId(int taskId)
+        
+        public async Task<IEnumerable<AppliedUsersDTO>> GetAllUsersWithTaskId(int taskId)
         {
             return await UpworkLebContext.AppliedToTasks
                 .Where(a => a.JobId == taskId)
-                .ToListAsync();
+                .Select(appliedUser => new AppliedUsersDTO
+                {
+                    AppliedToTaskId = appliedUser.AppliedToTaskId,
+                    AppliedDate = appliedUser.AppliedDate,
+                    JobId = appliedUser.JobId,
+                    UserId = appliedUser.UserId,
+                    User = new UserDTO
+                    {
+                        UserId = appliedUser.User.UserId,
+                        FirstName = appliedUser.User.FirstName,
+                        LastName = appliedUser.User.LastName,
+                        ProfilePicture = appliedUser.User.ProfilePicture
+                    }, // Assuming AppliedUser has a navigation property named User of type UserDTO
+                }).ToListAsync();
         }
         public async Task<IEnumerable<AppliedToTask>> GetAllJobsWithUserId(int userId)
         {

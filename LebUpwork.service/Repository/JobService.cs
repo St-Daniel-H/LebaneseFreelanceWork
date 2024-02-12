@@ -54,6 +54,25 @@ namespace LebUpwork.service.Repository
         {
             await _unitOfWork.CommitAsync();
         }
+
+        public async Task<IEnumerable<JobDTO>> GetJobsPostedByUser(int userId)
+        {
+
+            return await _unitOfWork.Jobs.GetAllJobsPostedByUser(userId);
+        }
+
+        public async Task<IEnumerable<JobDTO>> GetJobFinishedByUser(int userId)
+        {
+            return await _unitOfWork.Jobs.GetAllJobsFinishedByUser(userId);
+        }
+        public async Task<IEnumerable<JobDTO>> GetFinishedJobPostedByUser(int userId)
+        {
+            return await _unitOfWork.Jobs.GetAllFinishedJobsPostedByUser(userId);
+        }
+        public async Task<JobWithAppliedUsersDTO> GetJobWithAppliedUsers(int userId)
+        {
+            return await _unitOfWork.Jobs.GetJobByIdIncludeAppliedToTasks(userId);
+        }
         //public  Task<IEnumerable<Job>> GetJobsWithTag(ICollection<Tag> tags, int skip, int pageSize)
         //{
         //    throw new NotImplementedException();

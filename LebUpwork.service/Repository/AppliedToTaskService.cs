@@ -1,4 +1,5 @@
-﻿using LebUpwor.core.Interfaces;
+﻿using LebUpwor.core.DTO;
+using LebUpwor.core.Interfaces;
 using LebUpwor.core.Models;
 using LebUpwork.Api.Interfaces;
 using System;
@@ -16,7 +17,7 @@ namespace LebUpwork.service.Repository
         {
             this._unitOfWork = unitOfWork;
         }
-        public async Task<IEnumerable<AppliedToTask>> GetUsersAppliedByTaskId(int id)
+        public async Task<IEnumerable<AppliedUsersDTO>> GetUsersAppliedByTaskId(int id)
         {
             return await _unitOfWork.AppliedToTasks.GetAllUsersWithTaskId(id);
         }

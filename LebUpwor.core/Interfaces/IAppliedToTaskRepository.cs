@@ -1,4 +1,5 @@
-﻿using LebUpwor.core.Models;
+﻿using LebUpwor.core.DTO;
+using LebUpwor.core.Models;
 using Microsoft.AspNetCore.Identity;
 using startup.Interfaces;
 using System;
@@ -12,7 +13,7 @@ namespace LebUpwor.core.Interfaces
 {
     public interface IAppliedToTaskRepository : IRepositoryRepository<AppliedToTask>
     {
-        Task<IEnumerable<AppliedToTask>> GetAllUsersWithTaskId(int taskId);
+        Task<IEnumerable<AppliedUsersDTO>> GetAllUsersWithTaskId(int taskId);
         Task<IEnumerable<AppliedToTask>> GetAllJobsWithUserId(int userId);
     }
 }

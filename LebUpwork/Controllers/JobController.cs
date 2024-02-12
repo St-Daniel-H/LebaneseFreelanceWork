@@ -26,7 +26,7 @@ namespace LebUpwork.Api.Controllers
         private readonly IUserService _userService;
         private readonly ILogger<JobController> _logger;
 
-        public JobController(ITagService tagService,IUserService userService, IJobService jobService, IMapper mapper, ILogger<JobController> logger)
+        public JobController(ITagService tagService, IUserService userService, IJobService jobService, IMapper mapper, ILogger<JobController> logger)
         {
             this._mapper = mapper;
             this._jobService = jobService;
@@ -64,7 +64,7 @@ namespace LebUpwork.Api.Controllers
         }
         [HttpGet("GetJobsWithKeywors")]
         [Authorize]
-        public async Task<IActionResult> GetJobsWithSimilarTag(int skip, int pageSize,string keyword)
+        public async Task<IActionResult> GetJobsWithSimilarTag(int skip, int pageSize, string keyword)
         {
             try
             {
@@ -90,24 +90,24 @@ namespace LebUpwork.Api.Controllers
             }
         }
         [HttpPost("PostJob")]
-            [Authorize]
-            public async Task<IActionResult> PostJob([FromBody] SaveJobResources savejobResources)
+        [Authorize]
+        public async Task<IActionResult> PostJob([FromBody] SaveJobResources savejobResources)
+        {
+            try
             {
-                try
+
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
                 {
+                    return Unauthorized("Unauthorized");
+                }
 
-                    var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
-                    if (userIdClaim == null)
-                    {
-                        return Unauthorized("Unauthorized");
-                    }
-
-                    string userId = userIdClaim.Value;
-                    var user = await _userService.GetUserByIdWithTags(int.Parse(userId));
-                    if (user == null)
-                    {
-                        return BadRequest("Invalid User");
-                    }
+                string userId = userIdClaim.Value;
+                var user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("Invalid User");
+                }
                 var newJob = _mapper.Map<SaveJobResources, Job>(savejobResources);
                 newJob.Tags.Clear();
                 if (savejobResources.Tags.Count <= 5)
@@ -120,7 +120,7 @@ namespace LebUpwork.Api.Controllers
                             return BadRequest($"Tag with ID {tag} not found");
                         }
                         newJob.Tags.Add(newTag);
-                        
+
                     }
                 }
                 else
@@ -132,9 +132,9 @@ namespace LebUpwork.Api.Controllers
                 var returnnewjobResources = _mapper.Map<Job, JobResources>(createdJob);
 
                 return Ok(returnnewjobResources);
-                }
-                catch (Exception ex)
-                {
+            }
+            catch (Exception ex)
+            {
                 _logger.LogError(ex, "An error occurred while saving the entity changes.");
 
                 // Check if there is an inner exception
@@ -145,8 +145,8 @@ namespace LebUpwork.Api.Controllers
                 }
 
                 return BadRequest(ex.Message);
-                }
             }
+        }
         [HttpPut("UpdateJob")]
         [Authorize]
         public async Task<IActionResult> UpdateJob([FromBody] UpdateJobResource jobResources)
@@ -194,7 +194,7 @@ namespace LebUpwork.Api.Controllers
                     return BadRequest("Exceeded allowed tags");
                 }
                 //newJob.UserId = int.Parse(userId);
-                
+
                 var returnnewjobResources = _mapper.Map<Job, JobResources>(oldJob);
                 await _jobService.CommitChanges();
                 return Ok(returnnewjobResources);
@@ -210,6 +210,99 @@ namespace LebUpwork.Api.Controllers
                     _logger.LogError(ex.InnerException, "Inner exception details:");
                 }
 
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("ViewJobsPostedByUserId")]
+        [Authorize]
+        public async Task<IActionResult> ViewJobsPostedByUserId(int getUserId)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized");
+                }
+
+                string userId = userIdClaim.Value;
+                var user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var userToGetFrom = await _userService.GetUserByIdWithTags(getUserId);
+                if (userToGetFrom == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var jobs = await _jobService.GetJobsPostedByUser(getUserId);
+                return Ok(jobs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("ViewJobsFinishedByUserId")]
+        [Authorize]
+        public async Task<IActionResult> ViewJobsFinishedByUserId(int getUserId)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized");
+                }
+
+                string userId = userIdClaim.Value;
+                var user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var userToGetFrom = await _userService.GetUserByIdWithTags(getUserId);
+                if (userToGetFrom == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var jobs = await _jobService.GetJobFinishedByUser(getUserId);
+                return Ok(jobs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpGet("ViewFinishedJobsPostedByUserId")]
+        [Authorize]
+        public async Task<IActionResult> ViewFinishedJobsPostedByUserId(int getUserId)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized");
+                }
+
+                string userId = userIdClaim.Value;
+                var user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var userToGetFrom = await _userService.GetUserByIdWithTags(getUserId);
+                if (userToGetFrom == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var jobs = await _jobService.GetFinishedJobPostedByUser(getUserId);
+                return Ok(jobs);
+            }
+            catch (Exception ex)
+            {
                 return BadRequest(ex.Message);
             }
         }
