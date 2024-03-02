@@ -1,4 +1,5 @@
-﻿using LebUpwor.core.Models;
+﻿using LebUpwor.core.DTO;
+using LebUpwor.core.Models;
 using Microsoft.AspNetCore.Mvc;
 using startup.Interfaces;
 using System;
@@ -11,6 +12,6 @@ namespace LebUpwor.core.Interfaces
 {
     public interface INewJobRepository : IRepositoryRepository<NewJob>
     {
-        //public async Task<IActionResult> DeductTokensFromUser(int userId);
+       Task<NewJobDTO> GetJobTrackerByIds(int jobId);
     }
 }

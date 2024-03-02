@@ -13,6 +13,7 @@ using LebUpwork.Api.Resources.Save;
 using Microsoft.Extensions.Logging;
 using LebUpwork.Api.Resources.Update;
 using LebUpwor.core.Migrations;
+using LebUpwor.core.DTO;
 
 namespace LebUpwork.Api.Controllers
 {
@@ -274,9 +275,13 @@ namespace LebUpwork.Api.Controllers
                 oldJob.SelectedUser = newUser;
                 oldJob.SelectCount = oldJob.SelectCount+1;
                 oldJob.SelectedUserDate = DateTime.Now;
+                //update tracker time! 
+                NewJobDTO jobTracker = await _newJobService.getJobTrackerByJobId(oldJob.JobId);
+                jobTracker.date = oldJob.SelectedUserDate;
+                await _newJobService.CommitChanges();
                 //newJob.UserId = int.Parse(userId);
-                
-               // await _newJobService.CreateNewJob(newjobtracker);
+
+                // await _newJobService.CreateNewJob(newjobtracker);
                 var returnnewjobResources = _mapper.Map<Job, JobResources>(oldJob);
                 await _jobService.CommitChanges();
                 return Ok(returnnewjobResources);

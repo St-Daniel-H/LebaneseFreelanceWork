@@ -1,4 +1,5 @@
-﻿using LebUpwor.core.Models;
+﻿using LebUpwor.core.DTO;
+using LebUpwor.core.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,7 @@ namespace LebUpwork.service.Interfaces
     {
         Task CreateNewJob(NewJob newjob);
         Task DeleteNewJob(NewJob newjob);
-
+        Task<NewJobDTO> getJobTrackerByJobId(int jobId);
+         Task CommitChanges();
     }
 }

@@ -27,7 +27,7 @@ namespace LebUpwor.core.Repository
                 {
                     UserId= u.UserId,
                     JobId=u.JobId,
-                    date=u.date,
+                    date=u.Date,
                 }
                 )
                 .SingleOrDefault();
@@ -42,7 +42,7 @@ namespace LebUpwor.core.Repository
                      Token = u.User.Token
                     },
                     JobId = u.JobId,
-                    date = u.date,
+                    date = u.Date,
                 }
                 )
                 .SingleOrDefault();
