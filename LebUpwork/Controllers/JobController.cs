@@ -12,6 +12,7 @@ using LebUpwor.core.Models;
 using LebUpwork.Api.Resources.Save;
 using Microsoft.Extensions.Logging;
 using LebUpwork.Api.Resources.Update;
+using LebUpwor.core.Migrations;
 
 namespace LebUpwork.Api.Controllers
 {
@@ -24,14 +25,16 @@ namespace LebUpwork.Api.Controllers
         private readonly ITagService _tagService;
         private readonly IJobService _jobService;
         private readonly IUserService _userService;
+        private readonly INewJobService _newJobService;
         private readonly ILogger<JobController> _logger;
 
-        public JobController(ITagService tagService, IUserService userService, IJobService jobService, IMapper mapper, ILogger<JobController> logger)
+        public JobController(ITagService tagService,INewJobService newJobService, IUserService userService, IJobService jobService, IMapper mapper, ILogger<JobController> logger)
         {
             this._mapper = mapper;
             this._jobService = jobService;
             this._tagService = tagService;
             this._userService = userService;
+            this._newJobService = newJobService;
             this._logger = logger;
         }
         [HttpGet("GetJobsWithSimilarTag")]
@@ -133,8 +136,17 @@ namespace LebUpwork.Api.Controllers
                 }
                 newJob.UserId = int.Parse(userId);
                 Job createdJob = await _jobService.CreateJob(newJob);
+                await _userService.CommitChanges();
                 var returnnewjobResources = _mapper.Map<Job, JobResources>(createdJob);
-
+                user.TokenInUser += newJob.Offer;
+                NewJob newjobtracker = new NewJob
+                {
+                    UserId = user.UserId,
+                    JobId = newJob.JobId
+                };
+                //newjobtracker.Job = createdJob;
+                //newjobtracker.User = user;
+                await _newJobService.CreateNewJob(newjobtracker);
                 return Ok(returnnewjobResources);
             }
             catch (Exception ex)
@@ -263,7 +275,8 @@ namespace LebUpwork.Api.Controllers
                 oldJob.SelectCount = oldJob.SelectCount+1;
                 oldJob.SelectedUserDate = DateTime.Now;
                 //newJob.UserId = int.Parse(userId);
-
+                
+               // await _newJobService.CreateNewJob(newjobtracker);
                 var returnnewjobResources = _mapper.Map<Job, JobResources>(oldJob);
                 await _jobService.CommitChanges();
                 return Ok(returnnewjobResources);

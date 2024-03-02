@@ -24,6 +24,7 @@ namespace LebUpwor.core.Models
 
         public bool? IsOnline { get; set; }
         public double Token { get; set; }
+        public double TokenInUser { get; set; }
         public DateTime JoinedDate { get; set; }
         public DateTime? DeletedAt { get; set; }
         public DateTime LastSeenDate { get; set; }

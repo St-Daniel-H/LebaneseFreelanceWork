@@ -9,6 +9,6 @@ namespace LebUpwor.core.DTO
     public class UserWithTokensDTO
     {
         public int UserId { get; set; }
-        public int Token { get; set; }
+        public double Token { get; set; }
     }
 }

@@ -1,5 +1,7 @@
-﻿using LebUpwor.core.Interfaces;
+﻿using LebUpwor.core.DTO;
+using LebUpwor.core.Interfaces;
 using LebUpwor.core.Models;
+using Microsoft.EntityFrameworkCore;
 using startup.Repository;
 using System;
 using System.Collections.Generic;
@@ -16,6 +18,34 @@ namespace LebUpwor.core.Repository
         private UpworkLebContext UpworkLebContext
         {
             get { return Context as UpworkLebContext; }
+        }
+        public async Task<NewJobDTO> GetJobTrackerByIds(int jobId)
+        {
+            return UpworkLebContext.NewJobs
+                .Where(u => u.JobId == jobId)
+                .Select(u => new NewJobDTO
+                {
+                    UserId= u.UserId,
+                    JobId=u.JobId,
+                    date=u.date,
+                }
+                )
+                .SingleOrDefault();
+        }
+        public async Task<NewJobDTO> GetJobTrackerByIdWithUser(int jobId)
+        {
+            return UpworkLebContext.NewJobs
+                .Where(u => u.JobId == jobId)
+                .Select(u => new NewJobDTO
+                {
+                    User = new UserWithTokensDTO{
+                     Token = u.User.Token
+                    },
+                    JobId = u.JobId,
+                    date = u.date,
+                }
+                )
+                .SingleOrDefault();
         }
     }
 }

@@ -8,10 +8,10 @@ namespace LebUpwor.core.Models
 {
     public class NewJob
     {
-        public required int JobId { get; set; }
-        public required int UserId { get; set; }
-        public required DateTime date { get; set; }
-        NewJob()
+        public  int JobId { get; set; }
+        public  int UserId { get; set; }
+        public  DateTime date { get; set; }
+        public NewJob()
         {
             date = DateTime.Now;
         }

@@ -107,6 +107,7 @@ builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
+builder.Services.AddScoped<INewJobRepository, NewJobRepository>();
 
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -117,6 +118,8 @@ builder.Services.AddScoped<ICashOutHistoryService, CashOutHistoryService>();
 builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ITagService, TagService>();
+builder.Services.AddScoped<INewJobService, NewJobServices>();
+
 
 builder.Services.AddTransient<FileValidation>();
 

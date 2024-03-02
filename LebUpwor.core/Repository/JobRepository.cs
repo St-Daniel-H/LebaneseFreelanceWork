@@ -78,7 +78,7 @@ namespace LebUpwor.core.Repository
         {
             return await UpworkLebContext.Jobs
                  .Where(j => j.IsCompleted == false)
-                .Where(j => j.Tags.Any(t => tagStrings.Contains(t.TagName)) && job.DeletedAt == null)
+                .Where(j => j.Tags.Any(t => tagStrings.Contains(t.TagName)) && j.DeletedAt == null)
                 .Skip(skip)
                 .Take(pageSize)
                 .Select(j => new JobDTO
@@ -105,7 +105,7 @@ namespace LebUpwor.core.Repository
         {
             return await UpworkLebContext.Jobs
             .Where(j => j.IsCompleted == false)
-            .Where(j => j.Title.Contains(keyword) || j.Description.Contains(keyword) && job.DeletedAt == null)
+            .Where(j => j.Title.Contains(keyword) || j.Description.Contains(keyword) && j.DeletedAt == null)
                 .Skip(skip)
                 .Take(pageSize)
                 .Select(j => new JobDTO
@@ -137,7 +137,7 @@ namespace LebUpwor.core.Repository
         public async Task<IEnumerable<JobDTO>> GetAllJobsFinishedByUser(int userId)
         {
             return await UpworkLebContext.Jobs
-                .Where(j => j.SelectedUserId == userId && j.IsCompleted==true && job.DeletedAt == null)
+                .Where(j => j.SelectedUserId == userId && j.IsCompleted==true && j.DeletedAt == null)
                 .Select(j => new JobDTO
                 {
                     JobId = j.JobId,
