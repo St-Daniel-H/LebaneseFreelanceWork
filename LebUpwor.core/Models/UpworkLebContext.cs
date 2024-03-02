@@ -32,6 +32,8 @@ namespace LebUpwor.core.Models
         public virtual DbSet<TokenHistory> TokenHistories { get; set; } = null!;
         public virtual DbSet<Tag> Tags { get; set; } = null!;
         public virtual DbSet<Report> Reports { get; set; } = null!;
+
+        public virtual DbSet<NewJob> NewJobs { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //if (!optionsBuilder.IsConfigured)
@@ -122,6 +124,20 @@ namespace LebUpwor.core.Models
                  .WithMany()
                  .HasForeignKey(t => t.ReportedMessageId)
                  .OnDelete(DeleteBehavior.NoAction);
+
+
+            modelBuilder.Entity<NewJob>()
+              .HasKey(t => new { t.JobId, t.UserId });
+            modelBuilder.Entity<NewJob>()
+                 .HasOne(t => t.User)
+                 .WithMany()
+                 .HasForeignKey(t => t.UserId);
+            // .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<NewJob>()
+             .HasOne(t => t.Job)
+             .WithOne()
+             .HasForeignKey<NewJob>(t => t.JobId);
+             //.OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

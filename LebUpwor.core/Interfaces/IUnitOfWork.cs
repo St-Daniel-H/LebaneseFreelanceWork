@@ -17,7 +17,8 @@ namespace LebUpwor.core.Interfaces
         IAppliedToTaskRepository AppliedToTasks { get; }
         ITokenHistoryRepository TokenHistories { get; }
         ITagRepository Tags { get; }
-
+        IReportRepository Reports { get; }
+        INewJobRepository NewJobs { get; }
 
         Task<int> CommitAsync();
     }

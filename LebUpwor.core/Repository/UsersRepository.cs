@@ -29,26 +29,26 @@ namespace LebUpwor.core.Repository
         {
             return await UpworkLebContext.Users
                  .Include(user => user.Role) 
-                 .Where(user => user.Email == email)
+                 .Where(user => user.Email == email && user.DeletedAt == null)
                 .SingleOrDefaultAsync();
         }
         public async Task<User> GetUserById(int id)
         {
             return await UpworkLebContext.Users
-                 .Where(user => user.UserId == id)
+                 .Where(user => user.UserId == id && user.DeletedAt == null)
                 .SingleOrDefaultAsync();
         }
         public async Task<User> GetUserByGoogleId(int id)
         {
             return await UpworkLebContext.Users
-                 .Where(user => user.GoogleAccountId == id)
+                 .Where(user => user.GoogleAccountId == id && user.DeletedAt == null)
                 .SingleOrDefaultAsync();
         }
 
         public async Task<IEnumerable<User>> GetUserByName(string Name)
         {
             return await UpworkLebContext.Users
-                .Where(user => (user.FirstName + " " + user.LastName).Contains(Name))
+                .Where(user => (user.FirstName + " " + user.LastName).Contains(Name) && user.DeletedAt == null)
                 .ToListAsync();
         }
 
@@ -56,7 +56,7 @@ namespace LebUpwor.core.Repository
         {
             return await UpworkLebContext.Users
                  .Include(user => user.Tags)
-                 .Where(user => user.UserId == id)
+                 .Where(user => user.UserId == id && user.DeletedAt == null)
                 .SingleOrDefaultAsync();
         }
 

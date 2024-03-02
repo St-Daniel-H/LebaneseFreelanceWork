@@ -22,6 +22,8 @@ namespace LebUpwor.core.Models
         public bool IsCompleted { get; set; }
         public DateTime PostedDate { get; set; }
         public DateTime FinishedDate { get; set; }
+        public DateTime? DeletedAt { get; set; }
+
         public int SelectCount { get; set; }
         public  int? SelectedUserId { get; set; }
         public DateTime SelectedUserDate { get; set; }

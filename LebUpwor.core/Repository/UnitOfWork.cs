@@ -17,6 +17,7 @@ namespace LebUpwor.core.Repository
         private MessageRepository _messageRepository;
         private TagRepository _tagRepository;
         private ReportRepository _reportRepository;
+        private NewJobRepository _newJobRepository;
         public UnitOfWork(UpworkLebContext context)
         {
             this._context = context;
@@ -31,6 +32,7 @@ namespace LebUpwor.core.Repository
         public IMessageRepository Messages => _messageRepository = _messageRepository ?? new MessageRepository(_context);
         public IReportRepository Reports => _reportRepository = _reportRepository ?? new ReportRepository(_context);
         public ITagRepository Tags => _tagRepository = _tagRepository ?? new TagRepository(_context);
+        public INewJobRepository NewJobs => _newJobRepository = _newJobRepository ?? new NewJobRepository(_context);
         public async Task<int> CommitAsync()
         {
             return await _context.SaveChangesAsync();
