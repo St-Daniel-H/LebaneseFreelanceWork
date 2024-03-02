@@ -62,9 +62,9 @@ namespace LebUpwork.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("GetJobsWithKeywors")]
+        [HttpGet("GetJobsWithKeywords")]
         [Authorize]
-        public async Task<IActionResult> GetJobsWithSimilarTag(int skip, int pageSize, string keyword)
+        public async Task<IActionResult> GetJobsWithKeywords(int skip, int pageSize, string keyword)
         {
             try
             {
@@ -109,7 +109,11 @@ namespace LebUpwork.Api.Controllers
                     return BadRequest("Invalid User");
                 }
                 var newJob = _mapper.Map<SaveJobResources, Job>(savejobResources);
-                newJob.Tags.Clear();
+                if (user.Token < newJob.Offer)
+                {
+                    return BadRequest("Insufficient funds");
+                }
+                    newJob.Tags.Clear();
                 if (savejobResources.Tags.Count <= 5)
                 {
                     foreach (var tag in savejobResources.Tags)
@@ -193,6 +197,71 @@ namespace LebUpwork.Api.Controllers
                 {
                     return BadRequest("Exceeded allowed tags");
                 }
+                //newJob.UserId = int.Parse(userId);
+
+                var returnnewjobResources = _mapper.Map<Job, JobResources>(oldJob);
+                await _jobService.CommitChanges();
+                return Ok(returnnewjobResources);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "An error occurred while saving the entity changes.");
+
+                // Check if there is an inner exception
+                if (ex.InnerException != null)
+                {
+                    // Log the inner exception for more details
+                    _logger.LogError(ex.InnerException, "Inner exception details:");
+                }
+
+                return BadRequest(ex.Message);
+            }
+        }
+        [HttpPut("UpdateJobSelectedUser")]
+        [Authorize]
+        public async Task<IActionResult> UpdateJobSelectedUser([FromBody] UpdateJobSelectedUserResource updateJobSelectedUserResource)
+        {
+            try
+            {
+
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized");
+                }
+
+                string userId = userIdClaim.Value;
+                var user = await _userService.GetUserByIdWithTags(int.Parse(userId));
+                if (user == null)
+                {
+                    return BadRequest("Invalid User");
+                }
+                var newJob = _mapper.Map<UpdateJobSelectedUserResource, Job>(updateJobSelectedUserResource);
+                Job oldJob = await _jobService.GetJobById(newJob.JobId);
+                if(oldJob == null) { return BadRequest("Invalid Job"); }
+                
+                 var newUser = await _userService.GetUserById((int)newJob.SelectedUserId);
+                 if(newUser == null)
+                 {
+                    return BadRequest("Invalid User");
+                 }
+                if (oldJob.UserId.ToString() != userId)
+                {
+                    return BadRequest("Unauthorized User");
+                }
+                if(oldJob.SelectCount > 3) { return BadRequest("Maximum Changes Reached"); }
+                DateTime selectedUserDate = oldJob.SelectedUserDate;
+                // Calculate the time difference
+                TimeSpan timeDifference = DateTime.Now - selectedUserDate;
+                // Check if 24 hours have passed
+                if (timeDifference.TotalHours >= 24)
+                {
+                    return BadRequest("Can no longer change selection");
+                }
+                if (oldJob.SelectedUserId == newUser.UserId) { return BadRequest("User already selected"); }
+                oldJob.SelectedUser = newUser;
+                oldJob.SelectCount = oldJob.SelectCount+1;
+                oldJob.SelectedUserDate = DateTime.Now;
                 //newJob.UserId = int.Parse(userId);
 
                 var returnnewjobResources = _mapper.Map<Job, JobResources>(oldJob);

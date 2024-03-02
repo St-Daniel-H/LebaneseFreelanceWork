@@ -22,7 +22,7 @@ namespace LebUpwork.service.Repository
             return await _unitOfWork.AppliedToTasks.GetAllUsersWithTaskId(id);
         }
 
-        public async Task<IEnumerable<AppliedToTask>> GetJobsApplied(int userId)
+        public async Task<IEnumerable<AppliedUsersDTO>> GetJobsApplied(int userId)
         {
             return await _unitOfWork.AppliedToTasks.GetAllJobsWithUserId(userId);
         }

@@ -93,6 +93,33 @@ namespace LebUpwork.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpGet("GetAppliedTaskByUserId")]
+        [Authorize]
+        public async Task<IActionResult> GetAppliedTaskByUserId(int UserIdResource)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized");
+                }
+
+                string userId = userIdClaim.Value;
+                var user = await _userService.GetUserById(int.Parse(userId));
+                if (user == null) return BadRequest("Invalid User");
+
+                if (UserIdResource != int.Parse(userId))
+                    return BadRequest("Unauthorized");
+                var TasksAppliedTo = await _appliedToTaskService.GetJobsApplied(UserIdResource);
+
+                return Ok(TasksAppliedTo);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
     }
 
     

@@ -106,6 +106,7 @@ builder.Services.AddScoped<ICashOutHistoryRepository, CashOutHistoryRepository>(
 builder.Services.AddScoped<IMessageRepository, MessageRepository>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
+builder.Services.AddScoped<IReportRepository, ReportRepository>();
 
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -124,6 +125,9 @@ builder.Services.AddTransient<FileValidation>();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //idenitty
 
+//signalR stuff
+builder.Services.AddSignalR();
+//end signalR stuff
 var app = builder.Build();
 //map controllers
 app.MapControllers();

@@ -41,8 +41,8 @@ namespace LebUpwork.service.Repository
             jobToUpdate.Description = job.Description;
             jobToUpdate.Title = job.Title;
             jobToUpdate.IsCompleted = job.IsCompleted;
-            jobToUpdate.FinishedByUser = job.FinishedByUser;
-
+           // jobToUpdate.SelectedUser = job.SelectedUser;
+            
             await _unitOfWork.CommitAsync();
             return jobToUpdate;
         }

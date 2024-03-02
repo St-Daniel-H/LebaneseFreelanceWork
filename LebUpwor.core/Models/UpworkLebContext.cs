@@ -31,6 +31,7 @@ namespace LebUpwor.core.Models
         public virtual DbSet<Message> Messages { get; set; } = null!;
         public virtual DbSet<TokenHistory> TokenHistories { get; set; } = null!;
         public virtual DbSet<Tag> Tags { get; set; } = null!;
+        public virtual DbSet<Report> Reports { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //if (!optionsBuilder.IsConfigured)
@@ -52,9 +53,9 @@ namespace LebUpwor.core.Models
                  .OnDelete(DeleteBehavior.Restrict);
 
             modelBuilder.Entity<Job>()
-                .HasOne(j => j.FinishedByUser)
+                .HasOne(j => j.SelectedUser)
                 .WithMany(u => u.JobsFinished)
-                .HasForeignKey(j => j.FinishedByUserId)
+                .HasForeignKey(j => j.SelectedUserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
             // Configure the relationship between User and Message
@@ -101,10 +102,26 @@ namespace LebUpwor.core.Models
                       .WithMany() // Assuming one user can add multiple tags
                       .HasForeignKey(t => t.AddedByUserId)
                       .OnDelete(DeleteBehavior.SetNull);
-
-
-
-
+            modelBuilder.Entity<Report>()
+                 .HasOne(t => t.ReportedBy)
+                 .WithMany()
+                 .HasForeignKey(t => t.ReportedById)
+                 .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Report>()
+                 .HasOne(t => t.ReportedUser)
+                 .WithMany()
+                 .HasForeignKey(t => t.ReportedUserId)
+                 .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Report>()
+                  .HasOne(t => t.ReportedPost)
+                  .WithMany()
+                  .HasForeignKey(t => t.ReportedPostId)
+                  .OnDelete(DeleteBehavior.NoAction);
+            modelBuilder.Entity<Report>()
+                 .HasOne(t => t.ReportedMessage)
+                 .WithMany()
+                 .HasForeignKey(t => t.ReportedMessageId)
+                 .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }

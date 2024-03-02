@@ -38,6 +38,7 @@ namespace LebUpwor.core.Repository
         }
         public async Task<JobWithAppliedUsersDTO> GetJobByIdIncludeAppliedToTasks(int Jobid)
         {
+#pragma warning disable CS8603 // Possible null reference return.
             return await UpworkLebContext.Jobs
                  .Where(job => job.JobId == Jobid)
                  .Select(j => new JobWithAppliedUsersDTO
@@ -56,7 +57,7 @@ namespace LebUpwor.core.Repository
                      },
                      AppliedUsers = j.AppliedUsers.Select(appliedUser => new AppliedUsersDTO
                      {
-                         AppliedToTaskId = appliedUser.AppliedToTaskId,
+                         //AppliedToTaskId = appliedUser.AppliedToTaskId,
                          AppliedDate = appliedUser.AppliedDate,
                          JobId = appliedUser.JobId,
                          UserId = appliedUser.UserId,
@@ -71,6 +72,7 @@ namespace LebUpwor.core.Repository
 
                  })
                 .SingleOrDefaultAsync();
+#pragma warning restore CS8603 // Possible null reference return.
         }
         public async Task<IEnumerable<JobDTO>> GetJobsWithTag(ICollection<string> tagStrings, int skip, int pageSize)
         {
@@ -86,6 +88,7 @@ namespace LebUpwor.core.Repository
                     Description = j.Description,
                     Offer = j.Offer,
                     PostedDate = j.PostedDate,
+                    SelectCount = j.SelectCount,
                     User = new UserDTO
                     {
                         UserId = j.User.UserId,
@@ -134,7 +137,7 @@ namespace LebUpwor.core.Repository
         public async Task<IEnumerable<JobDTO>> GetAllJobsFinishedByUser(int userId)
         {
             return await UpworkLebContext.Jobs
-                .Where(j => j.FinishedByUserId == userId)
+                .Where(j => j.SelectedUserId == userId && j.IsCompleted==true)
                 .Select(j => new JobDTO
                 {
                     JobId = j.JobId,

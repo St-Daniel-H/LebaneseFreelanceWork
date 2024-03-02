@@ -114,6 +114,12 @@ namespace LebUpwor.core.Migrations
                     b.Property<DateTime>("PostedDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<DateTime>("SelectedUserDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int?>("SelectedUserId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -123,7 +129,7 @@ namespace LebUpwor.core.Migrations
 
                     b.HasKey("JobId");
 
-                    b.HasIndex("FinishedByUserId");
+                    b.HasIndex("SelectedUserId");
 
                     b.HasIndex("UserId");
 
@@ -162,6 +168,49 @@ namespace LebUpwor.core.Migrations
                     b.HasIndex("SenderId");
 
                     b.ToTable("Messages");
+                });
+
+            modelBuilder.Entity("LebUpwor.core.Models.Report", b =>
+                {
+                    b.Property<int>("ReportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReportId"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Details")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("IsFinishJobFailure")
+                        .HasColumnType("bit");
+
+                    b.Property<int?>("ReportedById")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReportedMessageId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReportedPostId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("ReportedUserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReportId");
+
+                    b.HasIndex("ReportedById");
+
+                    b.HasIndex("ReportedMessageId");
+
+                    b.HasIndex("ReportedPostId");
+
+                    b.HasIndex("ReportedUserId");
+
+                    b.ToTable("Reports");
                 });
 
             modelBuilder.Entity("LebUpwor.core.Models.Role", b =>
@@ -370,9 +419,9 @@ namespace LebUpwor.core.Migrations
 
             modelBuilder.Entity("LebUpwor.core.Models.Job", b =>
                 {
-                    b.HasOne("LebUpwor.core.Models.User", "FinishedByUser")
+                    b.HasOne("LebUpwor.core.Models.User", "SelectedUser")
                         .WithMany("JobsFinished")
-                        .HasForeignKey("FinishedByUserId")
+                        .HasForeignKey("SelectedUserId")
                         .OnDelete(DeleteBehavior.Restrict);
 
                     b.HasOne("LebUpwor.core.Models.User", "User")
@@ -381,7 +430,7 @@ namespace LebUpwor.core.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("FinishedByUser");
+                    b.Navigation("SelectedUser");
 
                     b.Navigation("User");
                 });
@@ -403,6 +452,37 @@ namespace LebUpwor.core.Migrations
                     b.Navigation("Receiver");
 
                     b.Navigation("Sender");
+                });
+
+            modelBuilder.Entity("LebUpwor.core.Models.Report", b =>
+                {
+                    b.HasOne("LebUpwor.core.Models.User", "ReportedBy")
+                        .WithMany()
+                        .HasForeignKey("ReportedById")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("LebUpwor.core.Models.Message", "ReportedMessage")
+                        .WithMany()
+                        .HasForeignKey("ReportedMessageId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("LebUpwor.core.Models.Job", "ReportedPost")
+                        .WithMany()
+                        .HasForeignKey("ReportedPostId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.HasOne("LebUpwor.core.Models.User", "ReportedUser")
+                        .WithMany()
+                        .HasForeignKey("ReportedUserId")
+                        .OnDelete(DeleteBehavior.NoAction);
+
+                    b.Navigation("ReportedBy");
+
+                    b.Navigation("ReportedMessage");
+
+                    b.Navigation("ReportedPost");
+
+                    b.Navigation("ReportedUser");
                 });
 
             modelBuilder.Entity("LebUpwor.core.Models.Tag", b =>

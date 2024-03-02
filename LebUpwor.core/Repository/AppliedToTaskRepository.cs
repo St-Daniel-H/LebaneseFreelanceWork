@@ -22,14 +22,14 @@ namespace LebUpwor.core.Repository
         {
             get { return Context as UpworkLebContext; }
         }
-        
+
         public async Task<IEnumerable<AppliedUsersDTO>> GetAllUsersWithTaskId(int taskId)
         {
             return await UpworkLebContext.AppliedToTasks
                 .Where(a => a.JobId == taskId)
                 .Select(appliedUser => new AppliedUsersDTO
                 {
-                    AppliedToTaskId = appliedUser.AppliedToTaskId,
+                   // AppliedToTaskId = appliedUser.AppliedToTaskId,
                     AppliedDate = appliedUser.AppliedDate,
                     JobId = appliedUser.JobId,
                     UserId = appliedUser.UserId,
@@ -42,11 +42,24 @@ namespace LebUpwor.core.Repository
                     }, // Assuming AppliedUser has a navigation property named User of type UserDTO
                 }).ToListAsync();
         }
-        public async Task<IEnumerable<AppliedToTask>> GetAllJobsWithUserId(int userId)
+        public async Task<IEnumerable<AppliedUsersDTO>> GetAllJobsWithUserId(int userId)
         {
             return await UpworkLebContext.AppliedToTasks
                 .Where(a => a.UserId == userId)
-                .ToListAsync();
+                                .Select(appliedUser => new AppliedUsersDTO
+                                {
+                                  //  AppliedToTaskId = appliedUser.AppliedToTaskId,
+                                    AppliedDate = appliedUser.AppliedDate,
+                                    JobId = appliedUser.JobId,
+                                    UserId = appliedUser.UserId,
+                                    User = new UserDTO
+                                    {
+                                        UserId = appliedUser.User.UserId,
+                                        FirstName = appliedUser.User.FirstName,
+                                        LastName = appliedUser.User.LastName,
+                                        ProfilePicture = appliedUser.User.ProfilePicture
+                                    }, // Assuming AppliedUser has a navigation property named User of type UserDTO
+                                }).ToListAsync();
         }
     }
 }

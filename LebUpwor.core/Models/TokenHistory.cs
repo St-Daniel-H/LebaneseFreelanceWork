@@ -20,7 +20,7 @@ namespace LebUpwor.core.Models
         public required int TaskId { get; set; }
         public  Job Job { get; set; }
         [ForeignKey("SenderId")]
-        public virtual  User Sender { get; set; }
+        public   User Sender { get; set; }
         [ForeignKey("ReceiverId")]
         public   User Receiver { get; set; }
         public TokenHistory()

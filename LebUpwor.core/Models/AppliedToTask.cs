@@ -15,6 +15,8 @@ namespace LebUpwor.core.Models
         public DateTime AppliedDate { get; set; }
         public required int JobId { get; set; }
         public required int UserId { get; set; }
+        public bool IsMarkedAsDone { get; set; }
+        public DateTime IsMarkedAsDoneDate { get; set; }
         [ForeignKey("UserId")]
         public  User? User { get; set; }
         public AppliedToTask() { 

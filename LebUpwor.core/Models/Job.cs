@@ -22,10 +22,12 @@ namespace LebUpwor.core.Models
         public bool IsCompleted { get; set; }
         public DateTime PostedDate { get; set; }
         public DateTime FinishedDate { get; set; }
-        public  int? FinishedByUserId { get; set; }
+        public int SelectCount { get; set; }
+        public  int? SelectedUserId { get; set; }
+        public DateTime SelectedUserDate { get; set; }
         [ForeignKey("FinishedByUserId")]
-        public  User? FinishedByUser { get; set; }
-
+        public  User? SelectedUser { get; set; }
+        
         public  ICollection<AppliedToTask> AppliedUsers { get; set; }
         public  ICollection<Tag>? Tags { get; set; }
         public Job()

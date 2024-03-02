@@ -47,6 +47,7 @@ namespace LebUpwork.Api.Mapping
             CreateMap<UpdateUserTags, User>();
             CreateMap<UpdateUserTagsResource, Tag>();
             CreateMap<UpdateJobResource, Job>();
+            CreateMap<UpdateJobSelectedUserResource, Job>();
         }
     }
 }

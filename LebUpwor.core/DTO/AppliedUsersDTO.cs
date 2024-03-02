@@ -10,7 +10,7 @@ namespace LebUpwor.core.DTO
 {
     public class AppliedUsersDTO
     {
-        public int AppliedToTaskId { get; set; }  
+     //   public int AppliedToTaskId { get; set; }  
         public DateTime AppliedDate { get; set; }
         public required int JobId { get; set; }
         public required int UserId { get; set; }
