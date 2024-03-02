@@ -15,6 +15,12 @@ using LebUpwork.Api.Extensions;
 using LebUpwork.Api.Settings;
 using LebUpwork.Api.Validators;
 using LebUpwork.service.Interfaces;
+using Hangfire;
+using Microsoft.Extensions.Options;
+using LebUpwork.Api.CronJobs;
+using Microsoft.Extensions.DependencyInjection;
+using Castle.Core.Configuration;
+using Hangfire.SqlServer;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -131,10 +137,26 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //signalR stuff
 builder.Services.AddSignalR();
 //end signalR stuff
+//hangfire stuff
+JobStorage.Current = new SqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));
+
+builder.Services.AddHangfire((sp, config) =>
+{
+    var cs = builder.Configuration.GetConnectionString("DefaultConnection");
+    config.UseSqlServerStorage(cs);
+});
+builder.Services.AddHangfireServer();
+builder.Services.AddTransient<JobPost24HourMark>();
+//end hangfire
 var app = builder.Build();
 //map controllers
 app.MapControllers();
-
+using (var scope = app.Services.CreateScope())
+{
+    var serviceProvider = scope.ServiceProvider;
+    var jobPost24HourMark = serviceProvider.GetRequiredService<JobPost24HourMark>();
+    jobPost24HourMark.ConfigureHangfire();
+}
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
@@ -161,7 +183,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAuthorization();
 app.MapRazorPages();
-
+app.UseHangfireDashboard();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();

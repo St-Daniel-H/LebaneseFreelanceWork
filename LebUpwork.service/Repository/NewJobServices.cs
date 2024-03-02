@@ -1,4 +1,5 @@
-﻿using LebUpwor.core.DTO;
+﻿using Azure;
+using LebUpwor.core.DTO;
 using LebUpwor.core.Interfaces;
 using LebUpwor.core.Models;
 using LebUpwork.service.Interfaces;
@@ -23,11 +24,17 @@ namespace LebUpwork.service.Repository
             await _unitOfWork.CommitAsync();
         }
 
-        public Task DeleteNewJob(NewJob newjob)
+        public async Task DeleteNewJob(NewJob newjob)
         {
-            throw new NotImplementedException();
+            _unitOfWork.NewJobs.Remove(newjob);
+            await _unitOfWork.CommitAsync();
         }
-        public async Task<NewJobDTO> getJobTrackerByJobId(int jobId)
+        public async Task<IEnumerable<NewJob>> GetAllJobTracks()
+        {
+            return await _unitOfWork.NewJobs.GetAllJobTracks();
+        }
+
+        public async Task<NewJob> getJobTrackerByJobId(int jobId)
         {
             return await _unitOfWork.NewJobs.GetJobTrackerByIds(jobId);
         }

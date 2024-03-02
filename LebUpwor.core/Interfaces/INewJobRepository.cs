@@ -12,6 +12,7 @@ namespace LebUpwor.core.Interfaces
 {
     public interface INewJobRepository : IRepositoryRepository<NewJob>
     {
-       Task<NewJobDTO> GetJobTrackerByIds(int jobId);
+       Task<NewJob> GetJobTrackerByIds(int jobId);
+       Task<IEnumerable<NewJob>> GetAllJobTracks();
     }
 }

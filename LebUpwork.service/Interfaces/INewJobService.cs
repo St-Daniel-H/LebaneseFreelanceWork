@@ -12,7 +12,9 @@ namespace LebUpwork.service.Interfaces
     {
         Task CreateNewJob(NewJob newjob);
         Task DeleteNewJob(NewJob newjob);
-        Task<NewJobDTO> getJobTrackerByJobId(int jobId);
+        Task<IEnumerable<NewJob>> GetAllJobTracks();
+
+        Task<NewJob> getJobTrackerByJobId(int jobId);
          Task CommitChanges();
     }
 }

@@ -19,17 +19,19 @@ namespace LebUpwor.core.Repository
         {
             get { return Context as UpworkLebContext; }
         }
-        public async Task<NewJobDTO> GetJobTrackerByIds(int jobId)
+
+        public async Task<IEnumerable<NewJob>> GetAllJobTracks()
+        {
+            return await UpworkLebContext.NewJobs
+                .Include(u=> u.User)
+                .Include(u=> u.Job)
+                .ToListAsync();
+        }
+
+        public async Task<NewJob> GetJobTrackerByIds(int jobId)
         {
             return UpworkLebContext.NewJobs
                 .Where(u => u.JobId == jobId)
-                .Select(u => new NewJobDTO
-                {
-                    UserId= u.UserId,
-                    JobId=u.JobId,
-                    date=u.Date,
-                }
-                )
                 .SingleOrDefault();
         }
         public async Task<NewJobDTO> GetJobTrackerByIdWithUser(int jobId)

@@ -26,7 +26,7 @@ namespace LebUpwor.core.Models
 
         public int SelectCount { get; set; }
         public  int? SelectedUserId { get; set; }
-        public DateTime SelectedUserDate { get; set; }
+        public DateTime? SelectedUserDate { get; set; }
         [ForeignKey("FinishedByUserId")]
         public  User? SelectedUser { get; set; }
         
@@ -35,6 +35,8 @@ namespace LebUpwor.core.Models
         public Job()
         {
             PostedDate =  DateTime.Now;
+            DeletedAt = null;
+            SelectedUserDate = null;
             IsCompleted = false;
         }
     }
