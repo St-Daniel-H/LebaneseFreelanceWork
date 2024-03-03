@@ -11,7 +11,7 @@ namespace LebUpwor.core.DTO
     {
         public  int JobId { get; set; }
         public  int UserId { get; set; }
-        public DateTime date { get; set; }
+        public DateTime? date { get; set; }
         public virtual JobWithDateAndOfferDTO? Job { get; set; }
         public virtual UserWithTokensDTO? User { get; set; }
     }

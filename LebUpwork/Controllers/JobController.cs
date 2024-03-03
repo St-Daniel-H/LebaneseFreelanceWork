@@ -143,7 +143,8 @@ namespace LebUpwork.Api.Controllers
                 NewJob newjobtracker = new NewJob
                 {
                     UserId = user.UserId,
-                    JobId = newJob.JobId
+                    JobId = newJob.JobId,
+                    Date = null,
                 };
                 //newjobtracker.Job = createdJob;
                 //newjobtracker.User = user;

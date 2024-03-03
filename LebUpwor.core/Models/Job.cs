@@ -21,7 +21,7 @@ namespace LebUpwor.core.Models
         public required double Offer { get; set; }
         public bool IsCompleted { get; set; }
         public DateTime PostedDate { get; set; }
-        public DateTime FinishedDate { get; set; }
+        public DateTime? FinishedDate { get; set; }
         public DateTime? DeletedAt { get; set; }
 
         public int SelectCount { get; set; }
@@ -38,6 +38,7 @@ namespace LebUpwor.core.Models
             DeletedAt = null;
             SelectedUserDate = null;
             IsCompleted = false;
+            SelectCount = 0;
         }
     }
 }

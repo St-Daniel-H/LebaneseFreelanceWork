@@ -10,10 +10,10 @@ namespace LebUpwor.core.Models
     {
         public  int JobId { get; set; }
         public  int UserId { get; set; }
-        public  DateTime Date { get; set; }
+        public  DateTime? Date { get; set; }
         public NewJob()
         {
-            Date = DateTime.Now;
+          //  Date = DateTime.Now;
         }
         public Job? Job { get; set; }
         public User? User { get; set; }

@@ -111,7 +111,7 @@ namespace LebUpwor.core.Migrations
                     b.Property<int?>("FinishedByUserId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("FinishedDate")
+                    b.Property<DateTime?>("FinishedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsCompleted")
@@ -126,7 +126,7 @@ namespace LebUpwor.core.Migrations
                     b.Property<int>("SelectCount")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("SelectedUserDate")
+                    b.Property<DateTime?>("SelectedUserDate")
                         .HasColumnType("datetime2");
 
                     b.Property<int?>("SelectedUserId")
@@ -190,7 +190,7 @@ namespace LebUpwor.core.Migrations
                     b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.HasKey("JobId", "UserId");
