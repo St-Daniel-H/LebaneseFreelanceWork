@@ -19,7 +19,7 @@ namespace LebUpwor.core.Interfaces
         ITagRepository Tags { get; }
         IReportRepository Reports { get; }
         INewJobRepository NewJobs { get; }
-
+        INotificationRepository Notifications { get; }
         Task<int> CommitAsync();
     }
 }

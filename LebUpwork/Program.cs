@@ -21,6 +21,8 @@ using LebUpwork.Api.CronJobs;
 using Microsoft.Extensions.DependencyInjection;
 using Castle.Core.Configuration;
 using Hangfire.SqlServer;
+using Microsoft.AspNetCore.SignalR;
+using LebUpwork.Api.Hubs;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -114,6 +116,7 @@ builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<ITagRepository, TagRepository>();
 builder.Services.AddScoped<IReportRepository, ReportRepository>();
 builder.Services.AddScoped<INewJobRepository, NewJobRepository>();
+builder.Services.AddScoped<INotificationRepository, NotificationRepository>();
 
 
 builder.Services.AddScoped<IUserService, UserService>();
@@ -125,6 +128,7 @@ builder.Services.AddScoped<IMessageService, MessageService>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<ITagService, TagService>();
 builder.Services.AddScoped<INewJobService, NewJobServices>();
+builder.Services.AddScoped<INotificationService, NotificationService>();
 
 
 builder.Services.AddTransient<FileValidation>();
@@ -187,5 +191,6 @@ app.UseHangfireDashboard();
 app.UseEndpoints(endpoints =>
 {
     endpoints.MapControllers();
+    endpoints.MapHub<NotificationHub>("/Hubs/NotificationHub");
 });
 app.Run();

@@ -34,6 +34,7 @@ namespace LebUpwor.core.Models
         public virtual DbSet<Report> Reports { get; set; } = null!;
 
         public virtual DbSet<NewJob> NewJobs { get; set; } = null!;
+        public virtual DbSet<Notification>Notifications { get; set; } = null!;
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             //if (!optionsBuilder.IsConfigured)

@@ -203,6 +203,30 @@ namespace LebUpwor.core.Migrations
                     b.ToTable("NewJobs");
                 });
 
+            modelBuilder.Entity("LebUpwor.core.Models.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
+
+                    b.Property<string>("Message")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<bool>("isRead")
+                        .HasColumnType("bit");
+
+                    b.HasKey("NotificationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("LebUpwor.core.Models.Report", b =>
                 {
                     b.Property<int>("ReportId")
@@ -508,6 +532,17 @@ namespace LebUpwor.core.Migrations
                         .IsRequired();
 
                     b.Navigation("Job");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("LebUpwor.core.Models.Notification", b =>
+                {
+                    b.HasOne("LebUpwor.core.Models.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.Navigation("User");
                 });

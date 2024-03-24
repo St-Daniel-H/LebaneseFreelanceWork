@@ -35,13 +35,15 @@ namespace LebUpwork.Api.Controllers
         private readonly JwtSettings _jwtSettings;
         private readonly FileValidation _fileValidation;
         private readonly ITagService _tagService;
-        public UserController(ITagService tagService,IUserService userService, IMapper mapper, IOptionsSnapshot<JwtSettings> jwtSettings,FileValidation fileValidation)
+        private readonly INotificationService _notificationService;
+        public UserController(INotificationService notificationService,ITagService tagService,IUserService userService, IMapper mapper, IOptionsSnapshot<JwtSettings> jwtSettings,FileValidation fileValidation)
         {
             this._mapper = mapper;
             this._fileValidation = fileValidation;
             this._userService = userService;
             this._jwtSettings = jwtSettings.Value;
             this._tagService = tagService;
+            this._notificationService = notificationService;
         }
         [HttpGet("UserInfo/{userId}")]
         [Authorize]
@@ -101,7 +103,12 @@ namespace LebUpwork.Api.Controllers
                     //ProfilePicture = user.ProfilePicture ?? null,
 
                 };
+                
                 var createResult = await _userService.CreateUser(newUser);
+                Notification notification = new Notification();
+                notification.UserId = createResult.UserId;
+                notification.Message = "Welcome to the website";
+                await _notificationService.CreateNewNotification(notification);
                 return Ok("User created successfully");
             }
             catch (Exception ex)
@@ -133,6 +140,12 @@ namespace LebUpwork.Api.Controllers
                     ModelState.AddModelError("Password", "incorrect password");
                     return BadRequest(ModelState);
                 }
+                Notification notification = new Notification
+                {
+                    UserId = getUser.UserId,
+                    Message = "Welcome Back!"
+                };
+                await _notificationService.CreateNewNotification(notification);
                 // Return the token as a response
                 return Ok(GenerateJwt(getUser));
             }

@@ -83,7 +83,6 @@ C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Microsoft.Entit
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\runtimes\win\lib\net7.0\Microsoft.Win32.SystemEvents.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Drawing.Common.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Newtonsoft.Json.dll
-C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\System.Net.WebSockets.WebSocketProtocol.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Hangfire.AspNetCore.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Hangfire.Core.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Hangfire.NetCore.dll
@@ -102,3 +101,9 @@ C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\sv\Hangfire.Cor
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\tr-TR\Hangfire.Core.resources.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\zh-TW\Hangfire.Core.resources.dll
 C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\zh\Hangfire.Core.resources.dll
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Pages\leb-work\.eslintrc.json
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Pages\leb-work\package-lock.json
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Pages\leb-work\package.json
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Pages\leb-work\tsconfig.json
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Pages\package-lock.json
+C:\Users\danih\source\repos\LebUpwork\LebUpwork\bin\Debug\net7.0\Pages\package.json
