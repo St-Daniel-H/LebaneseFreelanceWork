@@ -1,12 +1,28 @@
 ﻿using Microsoft.AspNetCore.SignalR;
 using System.Threading.Tasks;
+using LebUpwork.Api.Hubs;
+using Microsoft.AspNetCore.Authorization;
+
 namespace LebUpwork.Api.Hubs
 {
-    public class NotificationHub : Hub
+    [Authorize]
+    public class NotificationHub : Hub<INotification>
     {
-        public async Task SendNotification(string user, string message)
+        public override async Task OnConnectedAsync()
         {
-            await Clients.All.SendAsync("ReceiveNotification", user, message);
+           await Clients.Client(Context.ConnectionId).ReceiveNotification($"Thank you for connecting {Context.User?.Identity.Name}");
+           await base.OnConnectedAsync();
         }
+
+        //public async Task SendNotification(string message)
+        //{
+        //    await Clients.All.SendAsync("ReceiveNotification", message);
+        //}
     }
+    
+}
+public interface INotification
+{
+    Task OnConnected();
+    Task ReceiveNotification(string message);
 }

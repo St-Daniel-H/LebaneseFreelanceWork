@@ -23,6 +23,7 @@ using Castle.Core.Configuration;
 using Hangfire.SqlServer;
 using Microsoft.AspNetCore.SignalR;
 using LebUpwork.Api.Hubs;
+using LebUpwork.Api.BackgroundServices;
 
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
@@ -140,6 +141,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
 //signalR stuff
 builder.Services.AddSignalR();
+builder.Services.AddHostedService<ServerTimeNotifier>();
 //end signalR stuff
 //hangfire stuff
 JobStorage.Current = new SqlServerStorage(builder.Configuration.GetConnectionString("DefaultConnection"));

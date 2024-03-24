@@ -20,6 +20,8 @@ using LebUpwork.Api.Resources.Update;
 using LebUpwork.Api.Validators.Update;
 using Azure;
 using LebUpwork.service.Interfaces;
+using LebUpwork.Api.Hubs;
+using Microsoft.AspNetCore.SignalR;
 
 namespace LebUpwork.Api.Controllers
 {
@@ -36,7 +38,8 @@ namespace LebUpwork.Api.Controllers
         private readonly FileValidation _fileValidation;
         private readonly ITagService _tagService;
         private readonly INotificationService _notificationService;
-        public UserController(INotificationService notificationService,ITagService tagService,IUserService userService, IMapper mapper, IOptionsSnapshot<JwtSettings> jwtSettings,FileValidation fileValidation)
+        private readonly IHubContext<NotificationHub> _notificationHubContext;
+        public UserController(IHubContext<NotificationHub> notificationHubContext, INotificationService notificationService,ITagService tagService,IUserService userService, IMapper mapper, IOptionsSnapshot<JwtSettings> jwtSettings,FileValidation fileValidation)
         {
             this._mapper = mapper;
             this._fileValidation = fileValidation;
@@ -44,6 +47,8 @@ namespace LebUpwork.Api.Controllers
             this._jwtSettings = jwtSettings.Value;
             this._tagService = tagService;
             this._notificationService = notificationService;
+            this._notificationHubContext = notificationHubContext;
+
         }
         [HttpGet("UserInfo/{userId}")]
         [Authorize]

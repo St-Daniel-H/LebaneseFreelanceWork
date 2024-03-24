@@ -1,16 +1,18 @@
 ﻿using LebUpwor.core.Interfaces;
 using LebUpwor.core.Models;
 using LebUpwork.service.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
 namespace LebUpwork.service.Repository
 {
     public class NotificationService : INotificationService
     {
+
         private readonly IUnitOfWork _unitOfWork;
         public NotificationService(IUnitOfWork unitOfWork)
         {
