@@ -136,13 +136,13 @@ namespace LebUpwork.Api.Controllers
                 User getUser = await _userService.GetUserByEmail(user.Email);
                 if (getUser == null)
                 {
-                    ModelState.AddModelError("Email", "Email does not exists");
+                    ModelState.AddModelError("Error", "Email does not exists");
                     return BadRequest(ModelState);
                 }
 
                 if (!_userService.CheckPassword(getUser, user.Password))
                 {
-                    ModelState.AddModelError("Password", "incorrect password");
+                    ModelState.AddModelError("Error", "incorrect password");
                     return BadRequest(ModelState);
                 }
                 Notification notification = new Notification
