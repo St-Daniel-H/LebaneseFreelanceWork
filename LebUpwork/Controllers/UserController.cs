@@ -70,7 +70,7 @@ namespace LebUpwork.Api.Controllers
         }
         [HttpPost("Signup")]
         [AllowAnonymous] // Allow unauthenticated access
-        public async Task<IActionResult> Signup([FromForm] UserSignupResources signupResources)
+        public async Task<IActionResult> Signup([FromBody] UserSignupResources signupResources)
         {
             try
             {

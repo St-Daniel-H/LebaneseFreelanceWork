@@ -1,8 +1,19 @@
 @import "Variables.scss";
 
-#LoginPage {
+.LoginSigninPage {
     height: 100%;
     overflow: hidden;
+
+    a {
+        &:hover {
+            color: $primary-color;
+        }
+    }
+
+    .errorLabel {
+        font-size: 10px;
+        color: $primary-color;
+    }
 
     input[type="checkbox"] {
         appearance: none;

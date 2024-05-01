@@ -2,6 +2,7 @@ import Notifications from "./Home/@Notifications/page";
 import TansackProvider from "./Components/Providers/QueryProvider";
 import "./globals.css";
 import { Toaster, toast } from "sonner";
+import axios from "axios";
 
 export const metadata = {
   title: "Next.js",
@@ -10,6 +11,7 @@ export const metadata = {
 type Types = {
   children: React.ReactNode;
 };
+
 export default function RootLayout({ children }: Types) {
   return (
     <html lang="en" className="h-full">

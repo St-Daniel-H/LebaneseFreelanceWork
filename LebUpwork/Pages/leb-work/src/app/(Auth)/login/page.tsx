@@ -13,6 +13,7 @@ export default function LoginPage() {
     email: "",
     password: "",
   });
+  const [remmember, setRemember] = useState(true);
   // const submitData = () => {
   //   useToast({ status: "", description: "Loading" });
   //   // if (isError) {
@@ -22,13 +23,16 @@ export default function LoginPage() {
   // };
   const logIn = useMutation({
     mutationFn: async () => {
-      await axios.post(`${useApi}/User/Login`, formData);
+      const res = await axios.post(`${useApi}/User/Login`, formData);
+      return res.data;
     },
     onSuccess: (data) => {
       useToast({
         status: "success",
         description: "Logged In Successfully",
       });
+      if (remmember) sessionStorage.setItem("token", data);
+      else localStorage.setItem("token", data);
     },
     onError: (error: any) => {
       console.log(error);
@@ -39,7 +43,7 @@ export default function LoginPage() {
     },
   });
   return (
-    <div id="LoginPage" className="flex ">
+    <div id="LoginPage" className="flex LoginSigninPage">
       <div
         id="rightSideForm"
         className="w-1/2 h-full flex items-center justify-center"
@@ -76,7 +80,7 @@ export default function LoginPage() {
             Password
           </label>
           <input
-            type="text"
+            type="password"
             id="Password"
             className="  text-gray-900 text-sm border-b-2 border-black dark:border-gray-600 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white"
             // className="bg-gray-50 border  text-gray-900 text-sm rounded-lg   block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
@@ -88,14 +92,6 @@ export default function LoginPage() {
             disabled={logIn.isPending}
           />
           <br />
-          <input
-            id="remember"
-            type="checkbox"
-            value=""
-            className="w-4 h-4"
-            required
-          />
-          <label htmlFor="remember">Remember Me</label>
           <br /> <br />
           <button
             className="border-2 border-black-600 rounded-lg w-16 h-10 bg-gray-600 text-gray-900 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"
@@ -113,7 +109,7 @@ export default function LoginPage() {
           />{" "}
           <br />
           <p>
-            Already have an account? <Link href="/Signup">Signup</Link>
+            Don't have an account? <Link href="/Signup">Signup</Link>
           </p>
         </div>
       </div>
