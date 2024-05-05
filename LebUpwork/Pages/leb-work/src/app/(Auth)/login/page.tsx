@@ -14,13 +14,7 @@ export default function LoginPage() {
     password: "",
   });
   const [remmember, setRemember] = useState(true);
-  // const submitData = () => {
-  //   useToast({ status: "", description: "Loading" });
-  //   // if (isError) {
-  //   //   console.log(isError);
-  //   //   useToast({ status: "error", description: "data" });
-  //   // }
-  // };
+
   const logIn = useMutation({
     mutationFn: async () => {
       const res = await axios.post(`${useApi}/User/Login`, formData);
@@ -31,8 +25,8 @@ export default function LoginPage() {
         status: "success",
         description: "Logged In Successfully",
       });
-      if (remmember) sessionStorage.setItem("token", data);
-      else localStorage.setItem("token", data);
+      if (remmember) localStorage.setItem("token", data);
+      else sessionStorage.setItem("token", data);
     },
     onError: (error: any) => {
       console.log(error);
@@ -92,6 +86,14 @@ export default function LoginPage() {
             disabled={logIn.isPending}
           />
           <br />
+          <br />{" "}
+          <input
+            id="remember"
+            checked={remmember}
+            type="checkbox"
+            onChange={(e) => setRemember(!remmember)}
+          ></input>
+          <label htmlFor="remember">Remember me</label>
           <br /> <br />
           <button
             className="border-2 border-black-600 rounded-lg w-16 h-10 bg-gray-600 text-gray-900 text-sm dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white"

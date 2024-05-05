@@ -10,11 +10,9 @@ type Types = {
 };
 export default function RootLayout({ children, Notifications }: Types) {
   return (
-    <html lang="en">
-      <body>
-        {children}
-        {Notifications}
-      </body>
-    </html>
+    <>
+      {children}
+      {Notifications}
+    </>
   );
 }

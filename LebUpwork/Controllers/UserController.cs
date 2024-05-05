@@ -50,6 +50,30 @@ namespace LebUpwork.Api.Controllers
             this._notificationHubContext = notificationHubContext;
 
         }
+        [HttpGet("UserInfo")]
+        [Authorize]
+        public async Task<IActionResult> GetMyUserInfo()
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+                if (userIdClaim == null)
+                {
+                    return BadRequest("User was not found");
+                }
+                User user = await _userService.GetUserById(int.Parse(userIdClaim.Value));
+                var userResources = _mapper.Map<User, UserResources>(user);
+                if (user == null)
+                {
+                    return BadRequest("User was not found");
+                }
+                return Ok(userResources);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
         [HttpGet("UserInfo/{userId}")]
         [Authorize]
         public async Task<IActionResult> GetUserInfo(string userId)

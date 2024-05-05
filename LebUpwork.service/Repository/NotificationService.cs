@@ -12,7 +12,6 @@ namespace LebUpwork.service.Repository
 {
     public class NotificationService : INotificationService
     {
-
         private readonly IUnitOfWork _unitOfWork;
         public NotificationService(IUnitOfWork unitOfWork)
         {
@@ -20,6 +19,7 @@ namespace LebUpwork.service.Repository
         }
         public async Task CreateNewNotification(Notification newNotification)
         {
+
             await _unitOfWork.Notifications.AddAsync(newNotification);
             await _unitOfWork.CommitAsync();
         }
