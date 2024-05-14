@@ -1,12 +1,21 @@
+"use client";
+import "@/app/SCSS/TopBar.scss";
+import { IoIosNotifications } from "react-icons/io";
+import { useState } from "react";
 function TopBar() {
+  const [showNot, setShowNot] = useState(false);
+
   return (
-    <div
-      style={{
-        width: "100%",
-        height: "100px",
-      }}
-    >
-      <h1>LebanWork</h1>
+    <div id="TopBar">
+      <div>
+        <h1>LebanWork</h1>
+      </div>
+      <div>
+        <IoIosNotifications
+          onClick={() => setShowNot(!showNot)}
+          style={{ fontSize: "25px", cursor: "pointer" }}
+        />
+      </div>
     </div>
   );
 }

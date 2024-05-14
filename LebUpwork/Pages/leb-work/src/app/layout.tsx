@@ -1,4 +1,3 @@
-import Notifications from "./Home/@Notifications/page";
 import TansackProvider from "./Components/Providers/QueryProvider";
 import "./globals.css";
 import { Toaster, toast } from "sonner";

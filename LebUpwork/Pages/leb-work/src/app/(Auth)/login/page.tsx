@@ -8,13 +8,14 @@ import LoadingSpin from "@/app/Components/Ui/LoadingSpin";
 import "../../SCSS/Login.scss";
 import Link from "next/link";
 import { useMutation } from "@tanstack/react-query";
+import { useRouter } from "next/navigation";
 export default function LoginPage() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
   const [remmember, setRemember] = useState(true);
-
+  const rout = useRouter();
   const logIn = useMutation({
     mutationFn: async () => {
       const res = await axios.post(`${useApi}/User/Login`, formData);
@@ -27,6 +28,7 @@ export default function LoginPage() {
       });
       if (remmember) localStorage.setItem("token", data);
       else sessionStorage.setItem("token", data);
+      rout.push("/Home");
     },
     onError: (error: any) => {
       console.log(error);
@@ -111,7 +113,7 @@ export default function LoginPage() {
           />{" "}
           <br />
           <p>
-            Don't have an account? <Link href="/Signup">Signup</Link>
+            Don't have an account? <Link href="/signup">Signup</Link>
           </p>
         </div>
       </div>

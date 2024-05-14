@@ -183,7 +183,7 @@ export default function SignupPage() {
           />{" "}
           <br />
           <p>
-            Already have an account? <Link href="/Login">Login</Link>
+            Already have an account? <Link href="/login">Login</Link>
           </p>
         </div>
       </div>
