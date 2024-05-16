@@ -286,7 +286,7 @@ namespace LebUpwork.Api.Controllers
                     }
 
                     // Set the file path in the companyToCreate object to be "Uploads/companyId.jpg"
-                    user.ProfilePicture = guidFileName;
+                    user.CVpdf = guidFileName;
                     await _userService.CommitChanges();
                     return Ok("CV updated");
                 }

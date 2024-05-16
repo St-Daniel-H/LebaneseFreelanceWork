@@ -1,0 +1,57 @@
+@import "Variables.scss";
+
+#UserProfilePop {
+    display: flex;
+
+    img {
+        height: 100px;
+        width: 100px;
+        border-radius: 50%;
+    }
+
+    background-color: $primary-color;
+    padding:20px;
+    border-top-right-radius: 25%;
+    border-top-left-radius: 25%;
+    width:300px;
+    font-size: 20px;
+
+
+    p {
+        font-style: bold;
+    }
+
+    i,
+    b {
+        font-size: 15px;
+    }
+}
+
+.UserNavOption {
+    width: 100%;
+    border-bottom: 2px solid $primary-color;
+    padding: 10px;
+    transition: 0.5s ease;
+    cursor: pointer;
+
+    &:hover {
+        background-color: $primary-color;
+
+    }
+}
+
+#SignoutOption {
+    position: absolute;
+    bottom: 0;
+    border-top: 2px solid $primary-color;
+}
+
+#UserInfoPop {
+    position: relative;
+}
+
+#UserOptions {
+    height: 300px;
+    background-color: rgb(58, 58, 58);
+    box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+}
