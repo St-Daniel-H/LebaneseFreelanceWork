@@ -15,7 +15,7 @@ export default function RootLayout({ children, Notifications }: Types) {
         {" "}
         <TopBar />
       </div>
-      <div>{children}</div>
+      {children}
     </>
   );
 }

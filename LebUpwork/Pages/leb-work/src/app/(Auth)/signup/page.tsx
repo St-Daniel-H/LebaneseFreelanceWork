@@ -31,10 +31,8 @@ export default function SignupPage() {
         status: "success",
         description: "Signed up Successfully",
       });
-      console.log(data);
     },
     onError: (error: any) => {
-      console.log(error);
       const errorsReceived = error.response.data.$values;
       if (errorsReceived) {
         const newErrors = {

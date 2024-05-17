@@ -46,9 +46,9 @@ function UserProfilePop() {
         <div className="UserNavOption">
           <h1>Applied Jobs</h1>
         </div>
-      </div>
-      <div id="SignoutOption" className="UserNavOption">
-        <h1>Sign out</h1>
+        <div id="SignoutOption" className="UserNavOption">
+          <h1>Sign out</h1>
+        </div>
       </div>
     </div>
   );

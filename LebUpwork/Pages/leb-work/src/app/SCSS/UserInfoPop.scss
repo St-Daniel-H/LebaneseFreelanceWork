@@ -11,8 +11,6 @@
 
     background-color: $primary-color;
     padding:20px;
-    border-top-right-radius: 25%;
-    border-top-left-radius: 25%;
     width:300px;
     font-size: 20px;
 
@@ -46,12 +44,12 @@
     border-top: 2px solid $primary-color;
 }
 
-#UserInfoPop {
-    position: relative;
-}
+#UserInfoPop {}
 
 #UserOptions {
-    height: 300px;
+    height: 100%;
     background-color: rgb(58, 58, 58);
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
+    position: relative;
+
 }
