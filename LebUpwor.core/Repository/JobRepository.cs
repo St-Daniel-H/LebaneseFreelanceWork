@@ -79,6 +79,7 @@ namespace LebUpwor.core.Repository
             return await UpworkLebContext.Jobs
                  .Where(j => j.IsCompleted == false)
                 .Where(j => j.Tags.Any(t => tagStrings.Contains(t.TagName)) && j.DeletedAt == null)
+                .OrderByDescending(j => j.PostedDate)
                 .Skip(skip)
                 .Take(pageSize)
                 .Select(j => new JobDTO
@@ -98,7 +99,7 @@ namespace LebUpwor.core.Repository
                     },
                     Tags = (ICollection<TagDTO>)j.Tags.Select(n => new TagDTO { TagName = n.TagName })
                 })
-                .OrderByDescending(j => j.PostedDate)
+                
                 .ToListAsync();
         }
         public async Task<IEnumerable<JobDTO>> GetJobsWithKeyword(string keyword, int skip, int pageSize)
@@ -134,10 +135,13 @@ namespace LebUpwor.core.Repository
               .ToListAsync();
         }
 
-        public async Task<IEnumerable<JobDTO>> GetAllJobsFinishedByUser(int userId)
+        public async Task<IEnumerable<JobDTO>> GetAllJobsFinishedByUser(int userId, int skip, int page)
         {
             return await UpworkLebContext.Jobs
                 .Where(j => j.SelectedUserId == userId && j.IsCompleted==true && j.DeletedAt == null)
+                .OrderByDescending(j=>j.PostedDate)
+                .Skip(skip)
+                .Take(page)
                 .Select(j => new JobDTO
                 {
                     JobId = j.JobId,
@@ -152,13 +156,17 @@ namespace LebUpwor.core.Repository
                         LastName = j.User.LastName,
                         ProfilePicture = j.User.ProfilePicture
                     },
+                    Tags = (ICollection<TagDTO>)j.Tags.Select(n => new TagDTO { TagName = n.TagName })
                 })
                 .ToListAsync();
         }
-        public async Task<IEnumerable<JobDTO>> GetAllFinishedJobsPostedByUser(int userId)
+        public async Task<IEnumerable<JobDTO>> GetAllFinishedJobsPostedByUser(int userId, int skip, int page)
         {
             return await UpworkLebContext.Jobs
                 .Where(j => j.UserId == userId && j.IsCompleted == true && j.DeletedAt == null)
+                .OrderByDescending(j=>j.PostedDate)
+                .Skip(skip)
+                .Take(page)
                                 .Select(j => new JobDTO
                                 {
                                     JobId = j.JobId,
@@ -173,13 +181,17 @@ namespace LebUpwor.core.Repository
                                         LastName = j.User.LastName,
                                         ProfilePicture = j.User.ProfilePicture
                                     },
+                                    Tags = (ICollection<TagDTO>)j.Tags.Select(n => new TagDTO { TagName = n.TagName })
                                 }).ToListAsync();
         }
 
-        public async Task<IEnumerable<JobDTO>> GetAllJobsPostedByUser(int userId)
+        public async Task<IEnumerable<JobDTO>> GetAllJobsPostedByUser(int userId, int skip,int page)
         {
             return await UpworkLebContext.Jobs
                 .Where(j => j.UserId == userId && j.DeletedAt == null)
+                .OrderByDescending(j=>j.PostedDate)
+                .Skip(skip)
+                .Take(page)
                      .Select(j => new JobDTO
                      {
                          JobId = j.JobId,
@@ -194,6 +206,7 @@ namespace LebUpwor.core.Repository
                              LastName = j.User.LastName,
                              ProfilePicture = j.User.ProfilePicture
                          },
+                         Tags = (ICollection<TagDTO>)j.Tags.Select(n => new TagDTO { TagName = n.TagName })
                      }).ToListAsync();
         }
 

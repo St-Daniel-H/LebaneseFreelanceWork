@@ -80,7 +80,7 @@ namespace LebUpwork.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
-        [HttpGet("GetTagsByName/{name}")]
+        [HttpGet("GetTagsByName")]
         [Authorize]
         public async Task<IActionResult> GetTagByName(string name)
         {

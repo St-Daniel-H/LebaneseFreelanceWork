@@ -303,7 +303,7 @@ namespace LebUpwork.Api.Controllers
         }
         [HttpGet("ViewJobsPostedByUserId")]
         [Authorize]
-        public async Task<IActionResult> ViewJobsPostedByUserId(int getUserId)
+        public async Task<IActionResult> ViewJobsPostedByUserId(int getUserId, int skip, int page)
         {
             try
             {
@@ -324,7 +324,7 @@ namespace LebUpwork.Api.Controllers
                 {
                     return BadRequest("Invalid User");
                 }
-                var jobs = await _jobService.GetJobsPostedByUser(getUserId);
+                var jobs = await _jobService.GetJobsPostedByUser(getUserId, skip, page);
                 return Ok(jobs);
             }
             catch (Exception ex)
@@ -334,7 +334,7 @@ namespace LebUpwork.Api.Controllers
         }
         [HttpGet("ViewJobsFinishedByUserId")]
         [Authorize]
-        public async Task<IActionResult> ViewJobsFinishedByUserId(int getUserId)
+        public async Task<IActionResult> ViewJobsFinishedByUserId(int getUserId, int skip, int page)
         {
             try
             {
@@ -355,7 +355,7 @@ namespace LebUpwork.Api.Controllers
                 {
                     return BadRequest("Invalid User");
                 }
-                var jobs = await _jobService.GetJobFinishedByUser(getUserId);
+                var jobs = await _jobService.GetJobFinishedByUser(getUserId, skip, page);
                 return Ok(jobs);
             }
             catch (Exception ex)
@@ -365,7 +365,7 @@ namespace LebUpwork.Api.Controllers
         }
         [HttpGet("ViewFinishedJobsPostedByUserId")]
         [Authorize]
-        public async Task<IActionResult> ViewFinishedJobsPostedByUserId(int getUserId)
+        public async Task<IActionResult> ViewFinishedJobsPostedByUserId(int getUserId, int skip, int page)
         {
             try
             {
@@ -386,7 +386,7 @@ namespace LebUpwork.Api.Controllers
                 {
                     return BadRequest("Invalid User");
                 }
-                var jobs = await _jobService.GetFinishedJobPostedByUser(getUserId);
+                var jobs = await _jobService.GetFinishedJobPostedByUser(getUserId, skip, page);
                 return Ok(jobs);
             }
             catch (Exception ex)

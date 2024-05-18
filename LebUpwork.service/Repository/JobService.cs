@@ -55,19 +55,19 @@ namespace LebUpwork.service.Repository
             await _unitOfWork.CommitAsync();
         }
 
-        public async Task<IEnumerable<JobDTO>> GetJobsPostedByUser(int userId)
+        public async Task<IEnumerable<JobDTO>> GetJobsPostedByUser(int userId, int skip, int page)
         {
 
-            return await _unitOfWork.Jobs.GetAllJobsPostedByUser(userId);
+            return await _unitOfWork.Jobs.GetAllJobsPostedByUser(userId,skip,page);
         }
 
-        public async Task<IEnumerable<JobDTO>> GetJobFinishedByUser(int userId)
+        public async Task<IEnumerable<JobDTO>> GetJobFinishedByUser(int userId,int skip, int page)
         {
-            return await _unitOfWork.Jobs.GetAllJobsFinishedByUser(userId);
+            return await _unitOfWork.Jobs.GetAllJobsFinishedByUser(userId,skip,page);
         }
-        public async Task<IEnumerable<JobDTO>> GetFinishedJobPostedByUser(int userId)
+        public async Task<IEnumerable<JobDTO>> GetFinishedJobPostedByUser(int userId, int skip, int page)
         {
-            return await _unitOfWork.Jobs.GetAllFinishedJobsPostedByUser(userId);
+            return await _unitOfWork.Jobs.GetAllFinishedJobsPostedByUser(userId, skip, page);
         }
         public async Task<JobWithAppliedUsersDTO> GetJobWithAppliedUsers(int userId)
         {

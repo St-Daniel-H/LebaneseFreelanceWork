@@ -25,6 +25,10 @@
     }
 }
 
+.selectedNavOption {
+    background-color: $primary-color;
+}
+
 .UserNavOption {
     width: 100%;
     border-bottom: 2px solid $primary-color;
@@ -43,8 +47,6 @@
     bottom: 0;
     border-top: 2px solid $primary-color;
 }
-
-#UserInfoPop {}
 
 #UserOptions {
     height: 100%;

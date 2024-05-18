@@ -46,6 +46,7 @@ namespace LebUpwor.core.Repository
         {
             return await UpworkLebContext.Tags
                 .Where(u => u.TagName.ToLower().Contains(name.ToLower()))
+                .Take(5)
                 .ToListAsync();
         }
 

@@ -17,9 +17,9 @@ namespace LebUpwor.core.Interfaces
         Task<IEnumerable<JobDTO>> GetJobsWithTag(ICollection<string> tagStrings, int skip, int pageSize);
         Task<IEnumerable<JobDTO>> GetJobsWithKeyword(string keyword, int skip, int pageSize);
 
-        Task<IEnumerable<JobDTO>> GetAllJobsPostedByUser(int userId);
-        Task<IEnumerable<JobDTO>> GetAllJobsFinishedByUser(int userId);
-        Task<IEnumerable<JobDTO>> GetAllFinishedJobsPostedByUser(int userId);
+        Task<IEnumerable<JobDTO>> GetAllJobsPostedByUser(int userId,int skip, int page);
+        Task<IEnumerable<JobDTO>> GetAllJobsFinishedByUser(int userId, int skip, int page);
+        Task<IEnumerable<JobDTO>> GetAllFinishedJobsPostedByUser(int userId, int skip, int page);
         Task<JobWithAppliedUsersDTO> GetJobByIdIncludeAppliedToTasks(int Jobid);
 
     }

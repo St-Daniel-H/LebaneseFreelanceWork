@@ -6,7 +6,11 @@ import axiosInstance from "@/app/Hooks/axiosInstanse";
 import { useState } from "react";
 import { CiUser } from "react-icons/ci";
 import "@/app/SCSS/UserInfoPop.scss";
-function UserProfilePop() {
+interface UserProfilePopProps {
+  selectedTab: string;
+  setSelectedTab: (tab: string) => void;
+}
+function UserProfilePop({ selectedTab, setSelectedTab }: UserProfilePopProps) {
   const { data, isLoading, isError } = useQuery({
     queryKey: ["myUserInfo"],
     queryFn: async () => {
@@ -40,11 +44,25 @@ function UserProfilePop() {
         </div>
       </div>
       <div id="UserOptions">
-        <div className="UserNavOption">
+        <div
+          onClick={() => {
+            setSelectedTab("Jobs");
+          }}
+          className={` UserNavOption ${
+            selectedTab == "Jobs" ? " selectedNavOption" : ""
+          }`}
+        >
           <h1>Jobs</h1>
         </div>
-        <div className="UserNavOption">
-          <h1>Applied Jobs</h1>
+        <div
+          onClick={() => {
+            setSelectedTab("My Jobs");
+          }}
+          className={` UserNavOption ${
+            selectedTab == "My Jobs" ? " selectedNavOption" : ""
+          }`}
+        >
+          <h1>My Jobs</h1>
         </div>
         <div id="SignoutOption" className="UserNavOption">
           <h1>Sign out</h1>

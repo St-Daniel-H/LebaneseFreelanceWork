@@ -58,38 +58,6 @@ export default function JobsTable({}: // isLoading,
     }
   }
 
-  const [keyword, setKeyword] = useState("");
-  const [isKeywordLoading, setIsKeywordLoading] = useState(false);
-  async function getJobsWithKeyword() {
-    setNoMoreData(false);
-
-    try {
-      if (keyword == "") {
-        const { data } =
-          await axiosInstance.get(`/Job/GetJobsWithSimilarTag?skip=${skip}&pageSize=10
-      `);
-        setJobs(data.$values);
-        return;
-      }
-      setIsKeywordLoading(true);
-      setIsGettingMoreJobs(true);
-      const response = await axiosInstance.get(
-        `/Job/GetJobsWithKeywords?skip=${skip}&pageSize=10&keyword=${keyword}`
-      );
-      const newData = response.data;
-      if (newData.$values.length == 0) setNoMoreData(true);
-      if (skip == 0) setJobs(newData.$values);
-      else setJobs(jobs.concat(newData.$values));
-      setIsGettingMoreJobs(false);
-      setIsKeywordLoading(false);
-      return newData; // Return the new data if needed
-    } catch (error) {
-      console.error("Error fetching more jobs:", error);
-      setIsGettingMoreJobs(false);
-      setIsKeywordLoading(false);
-      // Handle errors here
-    }
-  }
   const [selectedJob, setSelectedJob] = useState({
     jobId: "",
     title: "",
@@ -98,63 +66,9 @@ export default function JobsTable({}: // isLoading,
     postedDate: "",
     tags: [],
   });
-  const [isApplying, setIsApplying] = useState(false);
-  async function ApplyToJob() {
-    setIsApplying(true);
-    try {
-      const response = await axiosInstance.get(
-        `/AppliedToTask/ApplyToJob?jobId=${selectedJob.jobId}`
-      );
-      const newData = response.data;
-      setIsApplying(false);
-      useToast({
-        status: "success",
-        description: "Applied to job",
-      });
-      return newData;
-    } catch (error: any) {
-      setIsApplying(false);
-      console.error("Error fetching more jobs:", error?.response?.data);
-      useToast({
-        status: "error",
-        description: error?.response?.data,
-      });
-    }
-  }
+
   return (
     <div className="JobsContainer" style={{ display: "block" }}>
-      <div
-        style={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          marginTop: "20px",
-        }}
-      >
-        {" "}
-        <div
-          id="search-bar"
-          style={{
-            borderTopLeftRadius: "10px",
-            borderBottomLeftRadius: "10px",
-          }}
-        >
-          <input
-            placeholder="Search"
-            onChange={(e) => {
-              setKeyword(e.target.value);
-            }}
-          ></input>
-          <button
-            onClick={() => {
-              setSkip(0);
-              getJobsWithKeyword();
-            }}
-          >
-            Search
-          </button>
-        </div>
-      </div>
       <div
         style={{
           width: "100%",
@@ -165,7 +79,7 @@ export default function JobsTable({}: // isLoading,
         }}
       >
         <div className="JobsTable">
-          {!isLoading && jobs && !isKeywordLoading ? (
+          {!isLoading && jobs ? (
             <div className="JobsGrid">
               <div className="Jobs">
                 {jobs.map((job: any, index: any) => (
@@ -214,10 +128,8 @@ export default function JobsTable({}: // isLoading,
                 ))}
                 <div
                   onClick={() => {
-                    if (keyword == "") {
-                      GetMoreJobs(skip + 10);
-                      setSkip(skip + 10);
-                    } else getJobsWithKeyword();
+                    GetMoreJobs(skip + 10);
+                    setSkip(skip + 10);
                   }}
                   className="loadMoreBtn job-item"
                   style={{ borderBottom: "0px" }}
@@ -268,21 +180,6 @@ export default function JobsTable({}: // isLoading,
 
                         <div className="job-description-bottom">
                           <div className="job-offer">{selectedJob.offer}$</div>
-                          <div>
-                            {isApplying ? (
-                              <LoadingSpin />
-                            ) : (
-                              <button
-                                className="applyToJobBtn"
-                                onClick={() => {
-                                  ApplyToJob();
-                                }}
-                              >
-                                {" "}
-                                Apply
-                              </button>
-                            )}
-                          </div>
                         </div>
                       </div>
                     </div>
