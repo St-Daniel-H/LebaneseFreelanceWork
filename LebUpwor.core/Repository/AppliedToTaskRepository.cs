@@ -42,24 +42,34 @@ namespace LebUpwor.core.Repository
                     }, // Assuming AppliedUser has a navigation property named User of type UserDTO
                 }).ToListAsync();
         }
-        public async Task<IEnumerable<AppliedUsersDTO>> GetAllJobsWithUserId(int userId)
+        public async Task<IEnumerable<AppliedUserWithJobDTO>> GetAllJobsWithUserId(int userId)
         {
             return await UpworkLebContext.AppliedToTasks
                 .Where(a => a.UserId == userId)
-                                .Select(appliedUser => new AppliedUsersDTO
+                                .Select(appliedUser => new AppliedUserWithJobDTO
                                 {
-                                  //  AppliedToTaskId = appliedUser.AppliedToTaskId,
+                                    //  AppliedToTaskId = appliedUser.AppliedToTaskId,
                                     AppliedDate = appliedUser.AppliedDate,
                                     JobId = appliedUser.JobId,
                                     UserId = appliedUser.UserId,
-                                    User = new UserDTO
+                                    Job = new JobDTO
                                     {
-                                        UserId = appliedUser.User.UserId,
-                                        FirstName = appliedUser.User.FirstName,
-                                        LastName = appliedUser.User.LastName,
-                                        ProfilePicture = appliedUser.User.ProfilePicture
-                                    }, // Assuming AppliedUser has a navigation property named User of type UserDTO
-                                }).ToListAsync();
+                                        User = new UserDTO{
+                                            UserId = appliedUser.Job.User.UserId,
+                                            FirstName = appliedUser.Job.User.FirstName,
+                                            LastName = appliedUser.Job.User.LastName,
+                                            ProfilePicture = appliedUser.Job.User.ProfilePicture,
+                                        },
+                                        Title = appliedUser.Job.Title,
+                                        Description = appliedUser.Job.Description,
+                                        Offer = appliedUser.Job.Offer,
+                                        PostedDate = appliedUser.Job.PostedDate,
+                                        Tags = (ICollection<TagDTO>)appliedUser.Job.Tags.Select(n => new TagDTO { TagName = n.TagName })
+                                    } 
+                                })
+                                .OrderByDescending(j=> j.AppliedDate)
+                                .ToListAsync();
         }
+    
     }
 }

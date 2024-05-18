@@ -14,6 +14,6 @@ namespace LebUpwor.core.Interfaces
     public interface IAppliedToTaskRepository : IRepositoryRepository<AppliedToTask>
     {
         Task<IEnumerable<AppliedUsersDTO>> GetAllUsersWithTaskId(int taskId);
-        Task<IEnumerable<AppliedUsersDTO>> GetAllJobsWithUserId(int userId);
+        Task<IEnumerable<AppliedUserWithJobDTO>> GetAllJobsWithUserId(int userId);
     }
 }

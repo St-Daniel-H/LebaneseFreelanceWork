@@ -6,7 +6,7 @@ namespace LebUpwork.Api.Interfaces
     public interface IAppliedToTaskService
     {
         Task<IEnumerable<AppliedUsersDTO>> GetUsersAppliedByTaskId (int id);
-        Task<IEnumerable<AppliedUsersDTO>> GetJobsApplied(int userId);
+        Task<IEnumerable<AppliedUserWithJobDTO>> GetJobsApplied(int userId);
         Task<AppliedToTask> CreateAppliedToTask(AppliedToTask taskapp);
     }
 }

@@ -18,6 +18,11 @@
     justify-content: center;
 }
 
+.job-applieddate {
+    border: 2px solid $primary-color;
+    padding: 10px;
+}
+
 .JobsTable {
     width: 100%;
     max-width: 700px;

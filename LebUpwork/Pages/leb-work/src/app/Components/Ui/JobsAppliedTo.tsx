@@ -5,35 +5,14 @@ import useApi from "@/app/Hooks/useApi";
 import axiosInstance from "@/app/Hooks/axiosInstanse";
 import useToast from "@/app/Hooks/useToast";
 import { useQuery } from "@tanstack/react-query";
-export default function JobsTable({}: // isLoading,
-// data,
-// skip,
-// setSkip,
-// GetMoreJobs,
-// isGettingMoreJobs,
-// noMoreData,
-// isKeywordLoading,
-// keyword,
-// getJobsWithKeyword,
-{
-  // keyword: any;
-  // getJobsWithKeyword: any;
-  // isKeywordLoading: boolean;
-  // isLoading: boolean;
-  // data: any;
-  // skip: any;
-  // setSkip: any;
-  // GetMoreJobs: any;
-  // isGettingMoreJobs: any;
-  // noMoreData: boolean;
-}) {
+export default function JobsAppliedTo({ userId }: { userId: number }) {
   const [jobs, setJobs] = useState<any[]>([]);
   const [skip, setSkip] = useState(0);
   const { data, isLoading, isError } = useQuery({
     queryKey: ["GetJobsByUserTags"],
     queryFn: async () => {
       const { data } =
-        await axiosInstance.get(`/Job/GetJobsWithSimilarTag?skip=${skip}&pageSize=10
+        await axiosInstance.get(`/AppliedToTask/GetAppliedTaskByUserId?UserIdResource=${userId}
       `);
       setJobs(data.$values);
       return data;
@@ -65,6 +44,7 @@ export default function JobsTable({}: // isLoading,
     offer: 0,
     postedDate: "",
     tags: [],
+    appliedDate: "",
   });
 
   return (
@@ -91,15 +71,16 @@ export default function JobsTable({}: // isLoading,
                     onClick={() =>
                       setSelectedJob({
                         jobId: job.jobId,
-                        title: job.title,
-                        description: job.description,
-                        offer: job.offer,
-                        postedDate: job.postedDate,
-                        tags: job.tags.$values,
+                        title: job.job.title,
+                        description: job.job.description,
+                        offer: job.job.offer,
+                        postedDate: job.job.postedDate,
+                        tags: job.job.tags.$values,
+                        appliedDate: job.appliedDate,
                       })
                     }
                   >
-                    <h3>{job.title}</h3>
+                    <h3>{job.job.title}</h3>
                     <div style={{ display: "flex" }}>
                       <img
                         style={{
@@ -110,15 +91,15 @@ export default function JobsTable({}: // isLoading,
                         src={
                           useApi +
                           "/File/Image?ImageName=" +
-                          job.user.profilePicture
+                          job.job.user.profilePicture
                         }
                       ></img>
                       <div style={{ marginLeft: "10px" }}>
                         <p style={{ fontSize: "13px" }}>
-                          {job.user.firstName} {job.user.lastName}
+                          {job.job.user.firstName} {job.job.user.lastName}
                         </p>{" "}
                         <i style={{ fontSize: "13px" }}>
-                          {formatDistanceToNow(parseISO(job.postedDate), {
+                          {formatDistanceToNow(parseISO(job.job.postedDate), {
                             addSuffix: true,
                           })}
                         </i>
@@ -126,28 +107,6 @@ export default function JobsTable({}: // isLoading,
                     </div>
                   </div>
                 ))}
-                <div
-                  onClick={() => {
-                    GetMoreJobs(skip + 10);
-                    setSkip(skip + 10);
-                  }}
-                  className="loadMoreBtn job-item"
-                  style={{ borderBottom: "0px" }}
-                >
-                  {noMoreData ? (
-                    ""
-                  ) : (
-                    <>
-                      {!isGettingMoreJobs ? (
-                        <h1>Load More</h1>
-                      ) : (
-                        <div style={{ maxWidth: "100%", maxHeight: "100%" }}>
-                          <LoadingSpin />
-                        </div>
-                      )}
-                    </>
-                  )}
-                </div>
               </div>
               <div className="JobDescription">
                 {selectedJob.title != "" ? (
@@ -180,6 +139,15 @@ export default function JobsTable({}: // isLoading,
 
                         <div className="job-description-bottom">
                           <div className="job-offer">{selectedJob.offer}$</div>
+                          <div className="job-applieddate">
+                            Applied&nbsp;
+                            {formatDistanceToNow(
+                              parseISO(selectedJob.appliedDate),
+                              {
+                                addSuffix: true,
+                              }
+                            )}
+                          </div>
                         </div>
                       </div>
                     </div>

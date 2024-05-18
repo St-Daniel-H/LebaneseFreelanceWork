@@ -1,17 +1,38 @@
 "use client";
 
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import UserProfilePop from "../Components/Ui/UserProfilePop";
 import ValidateToken from "../Components/Providers/ValidateToken";
 import { useRouter } from "next/navigation";
 import JobsTable from "../Components/Ui/JobsTable";
 import "@/app/SCSS/Home.scss";
-import axiosInstance from "../Hooks/axiosInstanse";
-import { useQuery } from "@tanstack/react-query";
 import MyJobsTable from "../Components/Ui/MyJobsTable";
+import JobsAppliedTo from "../Components/Ui/JobsAppliedTo";
+
+function getToken() {
+  return localStorage.getItem("token") || sessionStorage.getItem("token");
+}
+
+const jwt = require("jsonwebtoken");
 
 export default function Home() {
   const rout = useRouter();
+
+  const [userId, setUserId] = useState(0);
+  function decodeJwt() {
+    try {
+      const decoded = jwt.decode(getToken());
+      const nameIdentifier =
+        decoded[
+          "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/nameidentifier"
+        ];
+      setUserId(nameIdentifier);
+      return nameIdentifier;
+    } catch (error) {
+      console.error("Error decoding JWT:", error);
+      return null;
+    }
+  }
 
   useEffect(() => {
     const token =
@@ -20,9 +41,7 @@ export default function Home() {
     if (!token) {
       rout.push("/login");
     }
-  }, []);
-  useEffect(() => {
-    ValidateToken();
+    decodeJwt();
   }, []);
 
   const [selectedTab, setSelectedTab] = useState("Jobs");
@@ -33,6 +52,9 @@ export default function Home() {
         return <JobsTable />;
       case "My Jobs":
         return <MyJobsTable />;
+      case "Jobs Applied To":
+        return <JobsAppliedTo userId={userId} />;
+
       default:
         return <></>;
     }
