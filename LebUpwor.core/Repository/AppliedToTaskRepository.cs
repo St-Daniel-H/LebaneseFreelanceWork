@@ -29,10 +29,12 @@ namespace LebUpwor.core.Repository
                 .Where(a => a.JobId == taskId)
                 .Select(appliedUser => new AppliedUsersDTO
                 {
-                   // AppliedToTaskId = appliedUser.AppliedToTaskId,
+                    // AppliedToTaskId = appliedUser.AppliedToTaskId,
                     AppliedDate = appliedUser.AppliedDate,
                     JobId = appliedUser.JobId,
                     UserId = appliedUser.UserId,
+                    SelectedUserId = appliedUser.Job.SelectedUserId ?? 0,
+                    PostedDate = appliedUser.Job.PostedDate,
                     User = new UserDTO
                     {
                         UserId = appliedUser.User.UserId,

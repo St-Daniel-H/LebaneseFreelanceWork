@@ -8,6 +8,7 @@ import JobsTable from "../Components/Ui/JobsTable";
 import "@/app/SCSS/Home.scss";
 import MyJobsTable from "../Components/Ui/MyJobsTable";
 import JobsAppliedTo from "../Components/Ui/JobsAppliedTo";
+import MyProfile from "../Components/Ui/MyProfile";
 
 function getToken() {
   return localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -54,7 +55,8 @@ export default function Home() {
         return <MyJobsTable />;
       case "Jobs Applied To":
         return <JobsAppliedTo userId={userId} />;
-
+      case "My Profile":
+        return <MyProfile userId={userId.toString()} myOwn={true} />;
       default:
         return <></>;
     }

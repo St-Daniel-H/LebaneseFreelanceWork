@@ -74,6 +74,16 @@ function UserProfilePop({ selectedTab, setSelectedTab }: UserProfilePopProps) {
         >
           <h1>Jobs Applied To</h1>
         </div>
+        <div
+          onClick={() => {
+            setSelectedTab("My Profile");
+          }}
+          className={` UserNavOption ${
+            selectedTab == "My Profile" ? " selectedNavOption" : ""
+          }`}
+        >
+          <h1>My Profile</h1>
+        </div>
         <div id="SignoutOption" className="UserNavOption">
           <h1>Sign out</h1>
         </div>
