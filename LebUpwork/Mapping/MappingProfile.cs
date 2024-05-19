@@ -14,6 +14,8 @@ namespace LebUpwork.Api.Mapping
         {
             //Domain to source
             CreateMap<User, UserResources>();
+            CreateMap<User, UserResourceWithTags>();
+
             CreateMap<Job, JobResources>();
             CreateMap<Message, MessageResources>();
             CreateMap<CashOutHistory, CashOutHistoryResources>();

@@ -61,8 +61,8 @@ namespace LebUpwork.Api.Controllers
                 {
                     return BadRequest("User was not found");
                 }
-                User user = await _userService.GetUserById(int.Parse(userIdClaim.Value));
-                var userResources = _mapper.Map<User, UserResources>(user);
+                User user = await _userService.GetUserByIdWithTags(int.Parse(userIdClaim.Value));
+                var userResources = _mapper.Map<User, UserResourceWithTags>(user);
                 if (user == null)
                 {
                     return BadRequest("User was not found");

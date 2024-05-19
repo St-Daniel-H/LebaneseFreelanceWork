@@ -36,6 +36,7 @@ namespace LebUpwor.core.Repository
         {
             return await UpworkLebContext.Users
                  .Where(user => user.UserId == id && user.DeletedAt == null)
+                 .Include(user => user.Tags)
                 .SingleOrDefaultAsync();
         }
         public async Task<User> GetUserByGoogleId(int id)

@@ -45,6 +45,7 @@ function JobInfo({ jobId }: { jobId: string }) {
       );
       console.log(response.data.$values[0].selectedCount);
       setChangeCount(response.data.$values[0].selectedCount);
+      setTheSelectedUserId(response.data.$values[0].selectedUserId);
 
       if (response.data)
         isPostOlderThan24Hours(response.data.$values[0].postedDate);

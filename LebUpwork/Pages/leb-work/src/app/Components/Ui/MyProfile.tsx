@@ -20,11 +20,81 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
       queryKey: ["myUserInfo"],
       queryFn: async () => {
         const { data } = await axiosInstance.get(`/User/UserInfo`);
-        console.log(data);
-        setFormData(data);
+        setFormData({
+          firstName: data.firstName,
+          lastName: data.lastName,
+          phoneNumber: data.phoneNumber,
+          joinedDate: data.joinedDate,
+          profilePicture: data.profilePicture,
+          status: data.status,
+          cVpdf: data.cVpdf,
+          tags: [...data.tags.$values],
+        });
+        setSelectedTags(data.tags.$values.map((x: any) => x.tagName));
+
         return data;
       },
     });
+  }
+  const [filter, setFilter] = useState("");
+  const [options, setOptions] = useState<{ tagId: string; tagName: string }[]>(
+    []
+  );
+  const handleOptionClick = (option: any) => {
+    console.log(formData.tags);
+    if (formData.tags.some((tag: any) => tag.tagId == option.tagId)) {
+      setFormData({
+        ...formData,
+        tags: formData.tags.filter((item: any) => item.tagId !== option.tagId),
+      });
+      setSelectedTags([
+        ...selectedTags.filter((item: any) => item !== option.tagName),
+      ]);
+    } else {
+      if (formData.tags.length < 5) {
+        setFormData({
+          ...formData,
+          tags: [...formData.tags, { tagId: option.tagId }],
+        });
+        setSelectedTags([...selectedTags, option.tagName]);
+      }
+    }
+  };
+  const [selectedTags, setSelectedTags] = useState<any>([]);
+
+  async function getTagsByName(filter: string) {
+    if (filter == "") {
+      setOptions([]);
+      return;
+    }
+    const data = await axiosInstance.get("/Tag/GetTagsByName?name=" + filter);
+    const tags = data.data.$values.map(
+      (tag: { tagId: string; tagName: string }) => ({
+        tagId: tag.tagId,
+        tagName: tag.tagName,
+      })
+    );
+    setOptions(tags);
+    return data;
+  }
+
+  async function CreateJobTag() {
+    try {
+      const response = await axiosInstance.post("/Tag/CreateTag", {
+        tagName: filter,
+      });
+      useToast({ status: "success", description: "Job tag created" });
+      console.log(response.data);
+      setSelectedTags([...selectedTags, response.data.tagName]);
+      setFormData({
+        ...formData,
+        tags: [...formData.tags, { tagId: response.data.tagId }],
+      });
+    } catch (err) {
+      useToast({ status: "error", description: "something went wrong" });
+      console.log(err);
+    }
+    setFilter("");
   }
 
   const formattedDateDistance = (date: string) => {
@@ -163,18 +233,7 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
               ""
             )}
             <br />
-
-            {/* <button
-              className="  text-gray-900 text-sm border-b-2 border-black dark:border-gray-600 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white disabled"
-              style={{ cursor: "pointer", width: "20%" }}
-              onClick={() => {
-                fileInputRef.current.click();
-              }}
-            > */}
-            {/* Change CV
-            </button> */}
           </div>{" "}
-          <br />
           <button
             className="  text-gray-900 text-sm border-b-2 border-black dark:border-gray-600 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white disabled"
             style={{ cursor: "pointer", width: "100%" }}
@@ -184,8 +243,70 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
           >
             View Previous Work
           </button>
-          <br />
-          <div id="MyTags"></div>
+          <div id="MyTags">
+            <div>
+              <label htmlFor="styled-multiselect">Job Skills (Max 5)</label>
+              <input
+                id="filter"
+                className="  text-gray-900 text-sm border-b-2 border-black dark:border-gray-600 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white"
+                // className="bg-gray-50 border  text-gray-900 text-sm rounded-lg   block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white "
+                placeholder="Search for tag"
+                value={filter}
+                onChange={(e) => {
+                  setFilter(e.target.value);
+                  getTagsByName(e.target.value);
+                }}
+              />
+              {options.length == 0 && filter != "" ? (
+                <button onClick={CreateJobTag} className="mt-5">
+                  Create Job Tag
+                </button>
+              ) : (
+                <></>
+              )}
+              <div className="relative">
+                <div
+                  id="selectTagsContainer"
+                  style={{ maxHeight: "100px", overflowY: "scroll" }}
+                  className="border border-gray-300 bg-white rounded-md shadow-sm"
+                >
+                  {options.map((option: any) => (
+                    <div
+                      key={option.tagId}
+                      style={{
+                        color: "white",
+                        backgroundColor: formData.tags.some(
+                          (tag: any) => tag.tagId == option.tagId
+                        )
+                          ? "rgb(205, 14, 4)"
+                          : "transparent",
+                      }}
+                      className={`cursor-pointer select-none py-2 px-4 text-sm `}
+                      onClick={() => {
+                        handleOptionClick(option);
+                      }}
+                    >
+                      {option.tagName}
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div
+                id="selected-options"
+                className="mt-3 p-2 border border-gray-300 rounded-md bg-white"
+              >
+                <p className="text-sm text-gray-700">
+                  Selected:{" "}
+                  <span
+                    id="selected-label"
+                    className="font-medium text-gray-900"
+                  >
+                    {selectedTags.length ? selectedTags.join(", ") : "None"}
+                  </span>
+                </p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <JobsFinishedByUserId
