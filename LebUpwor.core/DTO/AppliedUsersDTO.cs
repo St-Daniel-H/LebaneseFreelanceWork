@@ -15,6 +15,7 @@ namespace LebUpwor.core.DTO
         public required int JobId { get; set; }
         public required int UserId { get; set; }
         public int SelectedUserId { get; set; }
+        public int SelectedCount { get; set; }
         public DateTime PostedDate { get; set; }
         public UserDTO? User { get; set; }
 

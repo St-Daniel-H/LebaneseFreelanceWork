@@ -34,6 +34,7 @@ namespace LebUpwor.core.Repository
                     JobId = appliedUser.JobId,
                     UserId = appliedUser.UserId,
                     SelectedUserId = appliedUser.Job.SelectedUserId ?? 0,
+                    SelectedCount = appliedUser.Job.SelectCount ,
                     PostedDate = appliedUser.Job.PostedDate,
                     User = new UserDTO
                     {

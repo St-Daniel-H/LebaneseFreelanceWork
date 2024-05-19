@@ -21,12 +21,15 @@ import { differenceInHours, formatDistanceToNow, parseISO } from "date-fns";
 function JobInfo({ jobId }: { jobId: string }) {
   const [Loading, isLoading] = useState(false);
   const [data, setData] = useState<any>([]);
-
+  const [theSelectedUser, setTheSelectedUserId] = useState("0");
   async function selectUserForJob(userId: string) {
     try {
-      const { data } = await axiosInstance.get(
-        `/AppliedToTask/GetUsersAppliedByTaskId?JobId=${jobId}`
-      );
+      const { data } = await axiosInstance.put(`/Job/UpdateJobSelectedUser`, {
+        selectedUserId: userId,
+        jobId: jobId,
+      });
+      setChangeCount(changeCount + 1);
+      setTheSelectedUserId(userId);
     } catch (err: any) {
       useToast({
         status: "error",
@@ -37,23 +40,32 @@ function JobInfo({ jobId }: { jobId: string }) {
   async function getJobAppliedUsers() {
     isLoading(true);
     try {
-      const { data } = await axiosInstance.get(
+      const response = await axiosInstance.get(
         `/AppliedToTask/GetUsersAppliedByTaskId?JobId=${jobId}`
       );
-      setData(data.$values);
+      console.log(response.data.$values[0].selectedCount);
+      setChangeCount(response.data.$values[0].selectedCount);
+
+      if (response.data)
+        isPostOlderThan24Hours(response.data.$values[0].postedDate);
+      setData(response.data.$values);
     } catch (err: any) {
+      console.log(err);
       useToast({
         status: "error",
-        description: err?.response.data || "something went wrong!",
+        description: "something went wrong!",
       });
     }
     isLoading(false);
   }
   function isPostOlderThan24Hours(postedDate: any) {
+    console.log(changeCount);
     const parsedPostedDate = parseISO(postedDate);
     const currentDate = new Date();
     const hoursDifference = differenceInHours(currentDate, parsedPostedDate);
-    return hoursDifference > 24;
+
+    setCanChange(!(hoursDifference > 24) && changeCount <= 3);
+    console.log(hoursDifference > 24);
   }
 
   useEffect(() => {
@@ -64,10 +76,10 @@ function JobInfo({ jobId }: { jobId: string }) {
   const [changeCount, setChangeCount] = useState(0);
   return (
     <>
-      {isPostOlderThan24Hours(data[0].postedDate) ? (
+      {!canChange ? (
         <h1>"You can't selet users anymore"</h1>
       ) : (
-        <h1>You can change your selection </h1>
+        <h1>You can change your selection {changeCount} </h1>
       )}
       <div id="JobInfo">
         {Loading ? (
@@ -113,12 +125,21 @@ function JobInfo({ jobId }: { jobId: string }) {
                     })}
                   </td>
                   <td>
-                    <button
-                      style={{ margin: "auto", padding: "20px" }}
-                      onClick={() => {}}
-                    >
-                      Select
-                    </button>
+                    {canChange ? (
+                      <button
+                        style={{ margin: "auto", padding: "20px" }}
+                        onClick={() => {
+                          if (data.user.userId == theSelectedUser) return;
+                          selectUserForJob(data.user.userId);
+                        }}
+                      >
+                        {data.user.userId != theSelectedUser
+                          ? "select"
+                          : "selected"}
+                      </button>
+                    ) : (
+                      ""
+                    )}
                   </td>
                 </tr>
               ))}

@@ -264,17 +264,23 @@ namespace LebUpwork.Api.Controllers
                     return BadRequest("Unauthorized User");
                 }
                 if(oldJob.SelectCount > 3) { return BadRequest("Maximum Changes Reached"); }
-                DateTime selectedUserDate = (DateTime)oldJob.SelectedUserDate;
-                // Calculate the time difference
-                TimeSpan timeDifference = DateTime.Now - selectedUserDate;
-                // Check if 24 hours have passed
-                if (timeDifference.TotalHours >= 24)
+
+                
+                if(oldJob.SelectedUserDate!=null)
                 {
-                    return BadRequest("Can no longer change selection");
+                    DateTime selectedUserDate = (DateTime)oldJob.SelectedUserDate;
+                    // Calculate the time difference
+                    TimeSpan timeDifference = DateTime.Now - selectedUserDate;
+                    // Check if 24 hours have passed
+                    if (timeDifference.TotalHours >= 24)
+                    {
+                        return BadRequest("Can no longer change selection");
+                    }
                 }
+               
                 if (oldJob.SelectedUserId == newUser.UserId) { return BadRequest("User already selected"); }
                 oldJob.SelectedUser = newUser;
-                oldJob.SelectCount = oldJob.SelectCount++;
+                oldJob.SelectCount++;
                 oldJob.SelectedUserDate = DateTime.Now;
                 //update tracker time! 
                 NewJob jobTracker = await _newJobService.getJobTrackerByJobId(oldJob.JobId);

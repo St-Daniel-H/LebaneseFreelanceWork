@@ -185,6 +185,7 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
             View Previous Work
           </button>
           <br />
+          <div id="MyTags"></div>
         </div>
       </div>
       <JobsFinishedByUserId
