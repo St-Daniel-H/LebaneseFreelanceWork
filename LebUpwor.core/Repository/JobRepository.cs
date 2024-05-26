@@ -34,6 +34,7 @@ namespace LebUpwor.core.Repository
             return await UpworkLebContext.Jobs
                  .Where(job => job.JobId == Jobid)
                  .Include(j => j.Tags)
+                 .Include(j=> j.SelectedUser)
                 .SingleOrDefaultAsync();
         }
         public async Task<JobWithAppliedUsersDTO> GetJobByIdIncludeAppliedToTasks(int Jobid)

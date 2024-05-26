@@ -49,6 +49,7 @@ function JobInfo({ jobId }: { jobId: string }) {
 
       if (response.data)
         isPostOlderThan24Hours(response.data.$values[0].postedDate);
+      setFinished(response.data.$values[0].isCompleted);
       setData(response.data.$values);
     } catch (err: any) {
       console.log(err);
@@ -68,7 +69,25 @@ function JobInfo({ jobId }: { jobId: string }) {
     setCanChange(!(hoursDifference > 24) && changeCount <= 3);
     console.log(hoursDifference > 24);
   }
+  const [finished, setFinished] = useState(false);
+  async function MarkJobFinished() {
+    try {
+      if (finished) return;
+      const response = await axiosInstance.put(`/Job/FinishJob?JobId=${jobId}`);
 
+      if (response) window.location.reload();
+      useToast({
+        status: "success",
+        description: "Job marked as finished",
+      });
+    } catch (err: any) {
+      console.log(err);
+      useToast({
+        status: "error",
+        description: "something went wrong!",
+      });
+    }
+  }
   useEffect(() => {
     getJobAppliedUsers();
   }, []);
@@ -77,7 +96,7 @@ function JobInfo({ jobId }: { jobId: string }) {
   const [changeCount, setChangeCount] = useState(0);
   return (
     <>
-      {!canChange ? (
+      {!canChange || finished ? (
         <h1>"You can't selet users anymore"</h1>
       ) : (
         <h1>You can change your selection {changeCount} </h1>
@@ -148,6 +167,12 @@ function JobInfo({ jobId }: { jobId: string }) {
           </table>
         )}
       </div>
+      <button
+        style={{ marginTop: "50px", padding: "10px" }}
+        onClick={MarkJobFinished}
+      >
+        {finished ? "This job is finished" : "Mark Job as finished"}
+      </button>
     </>
   );
 }

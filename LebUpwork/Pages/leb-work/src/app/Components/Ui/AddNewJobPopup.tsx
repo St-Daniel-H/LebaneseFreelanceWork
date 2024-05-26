@@ -112,6 +112,7 @@ function NewJobPopupForm({
       window.location.reload();
     } catch (err) {
       console.log(err);
+      useToast({ status: "error", description: "Something went wrong" });
     }
   }
   //const options = ["Option 1", "Option 2", "Option 3", "Option 4", "Option 5"];

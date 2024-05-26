@@ -367,8 +367,8 @@ namespace LebUpwork.Api.Controllers
                 {
                     return BadRequest(ModelState);
                 }
-
-                if ((user.Tags.Count + tagResources.Tags.Count) <= 5)
+                user.Tags.Clear();
+                if (tagResources.Tags.Count <= 5)
                 {
                     foreach (var tag in tagResources.Tags)
                     {

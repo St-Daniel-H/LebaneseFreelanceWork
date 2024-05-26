@@ -31,17 +31,16 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
           tags: [...data.tags.$values],
         });
         setSelectedTags(data.tags.$values.map((x: any) => x.tagName));
-
         return data;
       },
     });
   }
+
   const [filter, setFilter] = useState("");
   const [options, setOptions] = useState<{ tagId: string; tagName: string }[]>(
     []
   );
   const handleOptionClick = (option: any) => {
-    console.log(formData.tags);
     if (formData.tags.some((tag: any) => tag.tagId == option.tagId)) {
       setFormData({
         ...formData,
@@ -78,13 +77,55 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
     return data;
   }
 
+  const [newPfp, setNewpfp] = useState<FileList | null>(null);
+  const [newCv, setNewCv] = useState<FileList | null>(null);
+  async function SaveChanges() {
+    console.log(formData.profilePicture);
+
+    if (newCv && newCv.length > 0) {
+      const formDataToSend = new FormData();
+      formDataToSend.append("cVpdf", newCv[0]);
+      const cv = await axiosInstance.put(`User/UpdateCV`, formDataToSend, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+    }
+    if (newPfp && newPfp.length > 0) {
+      const formDataToSend = new FormData();
+      formDataToSend.append("profilePicture", newPfp[0]);
+      const profilePicture = await axiosInstance.put(
+        `User/UpdatePfp`,
+        formDataToSend,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+    }
+    if (formData.tags != null) {
+      const transformedTags = formData.tags.map((tag: any) => ({
+        tagId: tag.tagId,
+      }));
+      const tags = await axiosInstance.put(`User/UpdateTags`, {
+        tags: transformedTags,
+      });
+      console.log(tags);
+    }
+    if (formData.status != null) {
+      const status = await axiosInstance.put(`User/UpdateStatus`, {
+        status: formData.status,
+      });
+    }
+  }
+
   async function CreateJobTag() {
     try {
       const response = await axiosInstance.post("/Tag/CreateTag", {
         tagName: filter,
       });
       useToast({ status: "success", description: "Job tag created" });
-      console.log(response.data);
       setSelectedTags([...selectedTags, response.data.tagName]);
       setFormData({
         ...formData,
@@ -134,9 +175,7 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
             type="file"
             ref={fileInputRef}
             style={{}}
-            onChange={(ev) =>
-              setFormData({ ...formData, profilePicture: ev.target.files })
-            }
+            onChange={(ev) => setNewpfp(ev.target.files)}
           />
         </div>
         <div className="ProfileTopInfo">
@@ -178,7 +217,7 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
           <br />
           <textarea
             id="status"
-            value={formData.description}
+            value={formData.status}
             className="  text-gray-900 text-sm border-b-2 border-black dark:border-gray-600 block w-full p-2.5   dark:placeholder-gray-400 dark:text-white"
             placeholder="Status"
             onChange={(e) =>
@@ -187,7 +226,9 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
             required
           />
           <br />
-          <button style={{ padding: "10px" }}>Save Changes</button>
+          <button style={{ padding: "10px" }} onClick={SaveChanges}>
+            Save Changes
+          </button>
         </div>
         <div className="BottomRightProfile">
           <br />
@@ -224,9 +265,7 @@ function MyProfile({ userId, myOwn }: { userId: string; myOwn: boolean }) {
                   type="file"
                   ref={fileInputRef}
                   style={{}}
-                  onChange={(ev) =>
-                    setFormData({ ...formData, cVpdf: ev.target.files })
-                  }
+                  onChange={(ev) => setNewCv(ev.target.files)}
                 />
               </>
             ) : (

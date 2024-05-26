@@ -60,7 +60,7 @@ export default function JobFinishedByUserId({
         >
           Go back
         </button>
-        <div className="JobsTable" style={{ minWidth: "300px" }}>
+        <div className="JobsTable" style={{ minWidth: "600px" }}>
           {!isLoading && data.length > 0 ? (
             <div className="JobsGrid">
               <div className="Jobs">

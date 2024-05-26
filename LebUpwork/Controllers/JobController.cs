@@ -400,5 +400,35 @@ namespace LebUpwork.Api.Controllers
                 return BadRequest(ex.Message);
             }
         }
+        [HttpPut("FinishJob")]
+        [Authorize]
+        public async Task<IActionResult> FinishJob(int jobId)
+        {
+            try
+            {
+                var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier); // User ID from the JWT
+                if (userIdClaim == null)
+                {
+                    return Unauthorized("Unauthorized");
+                }
+
+                string userId = userIdClaim.Value;
+
+                var jobs = await _jobService.GetJobById(jobId);
+                if (jobs.UserId.ToString() != userId) return BadRequest("Unauthurized");
+                jobs.SelectedUser.Token += jobs.Offer;
+                jobs.IsCompleted = true;
+                await _jobService.CommitChanges();
+                await _userService.CommitChanges();
+                return Ok(jobs);
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+
+        }
+
+
     }
 }

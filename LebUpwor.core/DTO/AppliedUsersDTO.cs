@@ -18,6 +18,7 @@ namespace LebUpwor.core.DTO
         public int SelectedCount { get; set; }
         public DateTime PostedDate { get; set; }
         public UserDTO? User { get; set; }
+        public bool? isCompleted { get; set; }
 
     }
 }

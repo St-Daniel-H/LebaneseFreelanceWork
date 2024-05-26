@@ -49,9 +49,29 @@
 }
 
 #UserOptions {
+    transition: 0.5s;
     height: 100%;
     background-color: rgb(58, 58, 58);
     box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.1);
     position: relative;
 
+}
+
+#UserInfoPop {
+    transition: 0.5s;
+}
+
+body {
+    overflow-x: hidden;
+}
+
+@media screen and (max-width:1000px) {
+    #JobsContainer {
+        width: 100%;
+    }
+
+    #UserInfoPop {
+        transform: translateX(-400px);
+        width: 0%;
+    }
 }
